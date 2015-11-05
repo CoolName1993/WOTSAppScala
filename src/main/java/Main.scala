@@ -8,11 +8,15 @@ import scalafx.scene.paint.Color
 import scalafx.scene.shape.Circle
 import scalafx.beans.property.StringProperty
 import scalafx.beans.property.ObjectProperty
+import sql.SQLConnector
 /**
  * @author cboucher
  */
 object Main extends JFXApp {
 
+  SQLConnector.connect
+  SQLConnector.disconnect
+  
   val characters = ObservableBuffer[Person](
     new Person("Peggy", "Sue", Color.Violet),
     new Person("Rocky", "Raccoon", Color.GreenYellow),

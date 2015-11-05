@@ -4,22 +4,27 @@ import java.sql.{ Connection, DriverManager }
 import java.sql.ResultSet
 import java.sql.Types
 import java.sql.ResultSetMetaData
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+import javax.sql.DataSource
+
 /**
  * @author cboucher
  */
 object SQLConnector extends App {
-
-  val url = "jdbc:nbgardensdata://localhost:3306/mysql"
-  val driver = "com.mysql.jdbc.Driver"
-  val username = "root"
-  val password = "password"
+  def dataSource(): DataSource = {
+    val dataSource = new MysqlDataSource()
+    dataSource.setDatabaseName("nbgardensdata")
+    dataSource.setUser("root")
+    dataSource.setPassword("password")
+    dataSource.setServerName("localhost")
+    dataSource
+  }
   var connection: Connection = _
 
   // Establish database connection
   def connect(): Unit = {
     try {
-      Class.forName(driver)
-      connection = DriverManager.getConnection(url, username, password)
+      connection = dataSource.getConnection
     } catch {
       case e: Exception => e.printStackTrace
     }
