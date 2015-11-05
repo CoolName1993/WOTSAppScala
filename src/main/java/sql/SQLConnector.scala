@@ -57,7 +57,7 @@ object SQLConnector {
    * @param columns The names of the columns in the table.
    * @param values The value for each column to be inserted.
    */
-  def create(tableName: String, columns: Array[Column[Any]], values: Array[Any]): Unit = {
+  def create(tableName: String, columns: Array[Column]): Unit = {
 
     // Creates the column section of the query
     def createColumnString(): String = {
@@ -79,17 +79,17 @@ object SQLConnector {
     // Creates the value section of the query
     def createValueString(): String = {
       var output = ""
-      def addString(i: Int, value: Any): Unit = {
+      def addString(i: Int): Unit = {
         if (i == 0) {
-          output = "" + value
+          output = "" + columns(i).getValue
         } else {
-          output = output + ", " + value
+          output = output + ", " + columns(i).getValue
         }
-        if (i < values.size) {
-          addString(i + (1), values(i + (1)))
+        if (i < columns.size) {
+          addString(i + (1))
         }
       }
-      addString(0, values(0))
+      addString(0)
       output
     }
 
@@ -119,16 +119,16 @@ object SQLConnector {
    * @param columns The names of the columns to be queried in the table.
    * @param values The values to be queried for each column.
    */
-  def read(tableName: String, columns: Array[Column[Any]], values: Array[Any]): Array[Array[Any]] = {
+  def read(tableName: String, columns: Array[Column]): Array[Array[Any]] = {
     def createColumnValuePairs(): String = {
       var output = ""
       def createPairs(i: Int) {
         if (i == 0) {
-          output = columns(i).getColumnName + "='" + values(i) + "'"
+          output = columns(i).getColumnName + "='" + columns(i).getValue + "'"
         } else {
-          output = output + " AND " + columns(i).getColumnName + "='" + values(i) + "'"
+          output = output + " AND " + columns(i).getColumnName + "='" + columns(i).getValue + "'"
         }
-        if (i < values.size) {
+        if (i < columns.size) {
           createPairs(i + (1))
         }
       }
@@ -198,16 +198,16 @@ object SQLConnector {
    * @param primaryKeys The values of each primary key in the table.
    * @param primaryKeyColumns The names of each primary key column in the table.
    */
-  def update(tableName: String, columns: Array[Column[Any]], values: Array[Any], primaryKeys: Array[Any], primaryKeyColumns: Array[Column[Any]]): Unit = {
+  def update(tableName: String, columns: Array[Column], primaryKeyColumns: Array[Column]): Unit = {
     def createColumnUpdate(): String = {
       var output = ""
       def createPairs(i: Int) {
         if (i == 0) {
-          output = columns(i).getColumnName + "='" + values(i) + "'"
+          output = columns(i).getColumnName + "='" + columns(i).getValue + "'"
         } else {
-          output = output + ", " + columns(i).getColumnName + "='" + values(i) + "'"
+          output = output + ", " + columns(i).getColumnName + "='" + columns(i).getValue + "'"
         }
-        if (i < values.size) {
+        if (i < columns.size) {
           createPairs(i + (1))
         }
       }
@@ -218,11 +218,11 @@ object SQLConnector {
       var output = ""
       def createKeyPair(i: Int) {
         if (i == 0) {
-          output = primaryKeyColumns(i).getColumnName + "='" + primaryKeys(i) + "'"
+          output = primaryKeyColumns(i).getColumnName + "='" + primaryKeyColumns(i).getValue + "'"
         } else {
-          output = output + " AND " + primaryKeyColumns(i).getColumnName + "='" + primaryKeys(i) + "'"
+          output = output + " AND " + primaryKeyColumns(i).getColumnName + "='" + primaryKeyColumns(i).getValue + "'"
         }
-        if (i < values.size) {
+        if (i < primaryKeyColumns.size) {
           createKeyPair(i + (1))
         }
       }

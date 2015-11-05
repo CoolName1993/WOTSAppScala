@@ -1,13 +1,12 @@
 package sql
 
 /**
- * A generic column class of type [T]
- * @constructor Create a new column with a type and column name
+ * Represents a column name and value for an entity
  * @param name The name of the column in the database
+ * @param value The value stored in the column
  * @author cboucher
  */
-class Column[T](name: String) {
-  var returnType: T = _
-  def getReturnType: T = returnType
+class Column(name: String, value: Any) {
   def getColumnName: String = name
+  def getValue: Any = value
 }
