@@ -6,10 +6,50 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>WOTSScala</name>
 	<dependencies>
+		<!-- SCALAFX -->
 		<dependency>
 			<groupId>org.scalafx</groupId>
 			<artifactId>scalafx_2.11</artifactId>
 			<version>8.0.60-R9</version>
+		</dependency>
+		<!-- SQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.37</version>
+		</dependency>
+		<!-- MONGODB -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>casbah-commons_2.11</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>casbah-core_2.11</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>casbah-query_2.11</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>casbah-gridfs_2.11</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>casbah_2.11</artifactId>
+			<version>3.0.0</version>
+			<scope>compile</scope>
+			<type>pom</type>
 		</dependency>
 	</dependencies>
 </project>
