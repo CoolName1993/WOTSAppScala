@@ -1,10 +1,13 @@
 package com.qa.entity
 
+import com.qa.sql.{ Entity, Column }
+
 /**
  * @author cboucher
  */
-class CustomerOrderLine(idI: Int, idCO: Int, quan: Int) {
-  val idItem
-  val idCustomerOrder
-  val quantity
+case class CustomerOrderLine(idI: Int, idCO: Int, quan: Int) extends Entity {
+  val tableName = "customerorderline"
+  val idItem = new Column("idItem", idI)
+  val idCustomerOrder = new Column("idCustomerOrder", idCO)
+  val quantity = new Column("quantity", quan)
 }

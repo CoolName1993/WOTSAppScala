@@ -1,6 +1,6 @@
 package com.qa.entity
 
-import com.qa.sql.{Entity, Column}
+import com.qa.sql.{ Entity, Column }
 
 /**
  * @author cboucher
