@@ -17,7 +17,7 @@ object MongoConnector {
    * The name of the MongoDB database
    */
   val databaseName = "nbgardensdata"
-  
+
   /**
    * The connection to the database
    */
@@ -42,51 +42,60 @@ object MongoConnector {
   def disconnect(): Unit = {
     connection.close()
   }
-  
+
   /**
    * Searches a collection in the database for matching entities.
    * @param collectionName The name of the collection to access
    */
-  def read(collectionName: String) {
-//    def createMongoObject(): MongoDBObject = {
-//      var output = MongoDBObject
-//      def addField(i : Int) {
-//        
-//      }
-//      output
-//    }
+  def read(collectionName: String, field: Array[String], entity: Array[Any]): MongoDBObject = {
+    def createMongoObject(): MongoDBObject = {
+      var output = MongoDBObject.empty
+      def addField(i: Int) {
+        if (i <= entity.size) {
+          output.put(field(i), entity(i))
+        }
+      }
+      output
+    }
     try {
       val collection = connection(databaseName)(collectionName)
-//      var searchItem = createMongoObject
-      
+      var searchItem = createMongoObject
+      val returnItem = collection.findOne(searchItem)
+      disconnect
+      null
+      //returnItem
     } catch {
-      case e : Exception => e.printStackTrace
+      case e: Exception => {
+        e.printStackTrace
+        disconnect
+        null
+      }
     }
   }
-  
+
   /**
-   * 
+   *
    * returns an Item entity based on idItem
    * @param id: Takes an int which is the idItem of a given item
    * @return returns an Item object containing all the information for the given item
    */
-//  public Item getItem(int id) {
-//    //Connect to MongoDB
-//    mdbc.mongoConnect();
-//    
-//    DBCollection collection = this.getCollection(itemCol);
-//    
-//    BasicDBObject searchItem = new BasicDBObject();
-//    searchItem.put("idItem", id);
-//    DBObject itemObj = collection.findOne(searchItem);
-//    
-//    itemInfs.clear();
-//    
-//    Item newItem = makeItemEntityFromMongoObject(itemObj);
-//    
-//    //Disconnect from MongoDB
-//    mdbc.mongoDisconnect();
-//    
-//    return newItem;
-//  }
+  //  public Item getItem(int id) {
+  //    //Connect to MongoDB
+  //    mdbc.mongoConnect();
+  //    
+  //    DBCollection collection = this.getCollection(itemCol);
+  //    
+  //    BasicDBObject searchItem = new BasicDBObject();
+  //    searchItem.put("idItem", id);
+  //    DBObject itemObj = collection.findOne(searchItem);
+  //    
+  //    itemInfs.clear();
+  //    
+  //    Item newItem = makeItemEntityFromMongoObject(itemObj);
+  //    
+  //    //Disconnect from MongoDB
+  //    mdbc.mongoDisconnect();
+  //    
+  //    return newItem;
+  //  }
 }
