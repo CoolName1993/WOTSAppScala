@@ -9,14 +9,19 @@ import scalafx.scene.shape.Circle
 import scalafx.beans.property.StringProperty
 import scalafx.beans.property.ObjectProperty
 import sql.SQLConnector
+import mongo.MongoConnector
 /**
  * @author cboucher
  */
 object Main extends JFXApp {
 
+  //TEST//
   SQLConnector.connect
   SQLConnector.disconnect
-  
+  MongoConnector.connect
+  MongoConnector.disconnect
+  //TEST//
+
   val characters = ObservableBuffer[Person](
     new Person("Peggy", "Sue", Color.Violet),
     new Person("Rocky", "Raccoon", Color.GreenYellow),

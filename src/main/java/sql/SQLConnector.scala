@@ -8,9 +8,14 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource
 import javax.sql.DataSource
 
 /**
+ * Connects to the MySQL database and performs CRU operations.
+ * Does not require initialisation.
  * @author cboucher
  */
-object SQLConnector extends App {
+object SQLConnector {
+  /**
+   * Configures the information required to connect to the database.
+   */
   def dataSource(): DataSource = {
     val dataSource = new MysqlDataSource()
     dataSource.setDatabaseName("nbgardensdata")
@@ -19,9 +24,14 @@ object SQLConnector extends App {
     dataSource.setServerName("localhost")
     dataSource
   }
+  /**
+   * The connection to the database
+   */
   var connection: Connection = _
 
-  // Establish database connection
+  /**
+   * Establishes the connection to the database.
+   */
   def connect(): Unit = {
     try {
       connection = dataSource.getConnection
@@ -30,7 +40,9 @@ object SQLConnector extends App {
     }
   }
 
-  // Close database connection
+  /**
+   * Closes the connection to the database.
+   */
   def disconnect(): Unit = {
     try {
       connection.close
@@ -39,7 +51,12 @@ object SQLConnector extends App {
     }
   }
 
-  // Create entries in a table
+  /**
+   * Creates a new entity in the selected table.
+   * @param tableName The name of the table to insert into.
+   * @param columns The names of the columns in the table.
+   * @param values The value for each column to be inserted.
+   */
   def create(tableName: String, columns: Array[Column[Any]], values: Array[Any]): Unit = {
 
     // Creates the column section of the query
@@ -96,7 +113,12 @@ object SQLConnector extends App {
     }
   }
 
-  // Read entries from a table
+  /**
+   * Searches a table in the database for matching entities.
+   * @param tableName The name of the table to read from.
+   * @param columns The names of the columns to be queried in the table.
+   * @param values The values to be queried for each column.
+   */
   def read(tableName: String, columns: Array[Column[Any]], values: Array[Any]): Array[Array[Any]] = {
     def createColumnValuePairs(): String = {
       var output = ""
@@ -168,7 +190,14 @@ object SQLConnector extends App {
     }
   }
 
-  // Update entries in a table
+  /**
+   * Updates an entity in the selected table.
+   * @param tableName The name of the table to update.
+   * @param columns The names of the columns in the table.
+   * @param values The value for each column to be updated.
+   * @param primaryKeys The values of each primary key in the table.
+   * @param primaryKeyColumns The names of each primary key column in the table.
+   */
   def update(tableName: String, columns: Array[Column[Any]], values: Array[Any], primaryKeys: Array[Any], primaryKeyColumns: Array[Column[Any]]): Unit = {
     def createColumnUpdate(): String = {
       var output = ""
@@ -210,18 +239,6 @@ object SQLConnector extends App {
 
       // Execute the update
       preparedStatement.executeUpdate
-    } catch {
-      case e: Exception => e.printStackTrace
-    } finally {
-      disconnect
-    }
-  }
-
-  // Delete entries in a table
-  def delete(): Unit = {
-    try {
-      connect
-      // Shouldn't need to implement this any time soon
     } catch {
       case e: Exception => e.printStackTrace
     } finally {
