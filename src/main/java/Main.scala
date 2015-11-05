@@ -19,6 +19,12 @@ object Main extends JFXApp {
   SQLConnector.connect
   SQLConnector.disconnect
   MongoConnector.connect
+  val fields = Array("IsPorousware","idSupplier")
+  val entity = Array(true,2)
+  val results = MongoConnector.read("Item", fields, entity)
+  for(result <- results) {
+    println(result.toString())
+  }
   MongoConnector.disconnect
   //TEST//
 
@@ -35,12 +41,12 @@ object Main extends JFXApp {
           new TableColumn[Person, String] {
             text = "First Name"
             cellValueFactory = { _.value.firstName }
-            prefWidth = 100
+            prefWidth = 300
           },
           new TableColumn[Person, String]() {
             text = "Last Name"
             cellValueFactory = { _.value.lastName }
-            prefWidth = 100
+            prefWidth = 300
           },
           new TableColumn[Person, Color] {
             text = "Favorite Color"
@@ -54,7 +60,7 @@ object Main extends JFXApp {
                 }
               }
             }
-            prefWidth = 100
+            prefWidth = 300
           })
       }
     }

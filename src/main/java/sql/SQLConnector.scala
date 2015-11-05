@@ -8,7 +8,7 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource
 import javax.sql.DataSource
 
 /**
- * Connects to the MySQL database and performs CRU operations.
+ * Connects to the MySQL database and performs CRU operations. <br/>
  * Does not require initialisation.
  * @author cboucher
  */
