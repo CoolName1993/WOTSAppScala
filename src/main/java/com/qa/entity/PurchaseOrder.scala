@@ -5,20 +5,20 @@ import java.sql.Date
 
 /**
  * Represents a Purchase Order from the MySQL database.
- * @param idPO The purchase order ID.
- * @param dateP The date the purchase order was placed.
- * @param dateE The date the purchase order is expected.
- * @param idPOS The purchase order status ID.
- * @param idS The supplier ID.
- * @param idE The employee ID.
+ * @param idPurchaseOrder_ The purchase order ID.
+ * @param datePlaced_ The date the purchase order was placed.
+ * @param dateExpected_ The date the purchase order is expected.
+ * @param idPurchaseOrderStatus_ The purchase order status ID.
+ * @param idSupplier_ The supplier ID.
+ * @param idEmployee_ The employee ID.
  * @author cboucher
  */
-case class PurchaseOrder(idPO: Int, dateP: Date, dateE: Date, idPOS: Int, idS: Int, idE: Int) extends Entity {
+case class PurchaseOrder(idPurchaseOrder_ : Int, datePlaced_ : Date, dateExpected_ : Date, idPurchaseOrderStatus_ : Int, idSupplier_ : Int, idEmployee_ : Int) extends Entity {
   val tableName: String = "purchaseorder"
-  val idPurchaseOrder = new Column("idPurchaseOrder", idPO)
-  val datePlaced = new Column("datePlaced", dateP)
-  val dateExpected = new Column("dateExpected", dateE)
-  val idPurchaseOrderStatus = new Column("idPurchaseOrderStatus", idPOS)
-  val idSupplier = new Column("idSupplier", idS)
-  val idEmployee = new Column("idEmployee", idE)
+  val idPurchaseOrder = new Column("idPurchaseOrder", idPurchaseOrder_)
+  val datePlaced = new Column("datePlaced", datePlaced_)
+  val dateExpected = new Column("dateExpected", dateExpected_)
+  val idPurchaseOrderStatus = new Column("idPurchaseOrderStatus", idPurchaseOrderStatus_)
+  val idSupplier = new Column("idSupplier", idSupplier_)
+  val idEmployee = new Column("idEmployee", idEmployee_)
 }

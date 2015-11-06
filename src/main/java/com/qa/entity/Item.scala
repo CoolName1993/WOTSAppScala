@@ -5,16 +5,16 @@ import com.qa.mongo.{ Entity, Field }
 
 /**
  * Represents an Item from the MongoDB database.
- * @param idI The item ID.
- * @param name The name of the item.
- * @param image The location of the item's image.
- * @param porous Whether the item has porousware.
+ * @param idItem_ The item ID.
+ * @param itemName_ The name of the item.
+ * @param imageLocation_ The location of the item's image.
+ * @param isPorousware_ Whether the item has porousware.
  * @author cboucher
  */
-case class Item(idI: Int, name: String, image: String, porous: Boolean) extends Entity {
+case class Item(idItem_ : Int, itemName_ : String, imageLocation_ : String, isPorousware_ : Boolean) extends Entity {
   val collectionName: String = "Item"
-  val idItem = new Field("idItem", idI)
-  val itemName = new Field("ItemName", name)
-  val imageLocation = new Field("ImageLocation", image)
-  val isPorousware = new Field("IsPorousware", porous)
+  val idItem = new Field("idItem", idItem_)
+  val itemName = new Field("ItemName", itemName_)
+  val imageLocation = new Field("ImageLocation", imageLocation_)
+  val isPorousware = new Field("IsPorousware", isPorousware_)
 }

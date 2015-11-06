@@ -29,8 +29,6 @@ object MongoConnector {
   def connect(): Unit = {
     try {
       connection = MongoConnection(mongoURL, 27017)
-      //val mongoDB = connection("nbgardensdata")
-      //val items = mongoDB("Item")
     } catch {
       case e: Exception => e.printStackTrace()
     }
@@ -46,14 +44,17 @@ object MongoConnector {
   /**
    * Searches a collection in the database for matching entities.
    * @param collectionName The name of the collection to access
+   * @param fields An array of fields used as search parameters
    */
-  def read(collectionName: String, field: Array[String], entity: Array[_]): Array[MongoDBObject] = {
+  def read(collectionName: String, fields: Array[Field]): Array[MongoDBObject] = {
+    connect
     def createMongoObject(): MongoDBObject = {
       var output = MongoDBObject.empty
       def addField(i: Int) {
-        if (i <= entity.size) {
-          println(field(i) + "," + entity(i))
-          output.put(field(i), entity(i))
+        if (i < fields.size) {
+          println(fields(i).getFieldName + "," + fields(i).getValue)
+          output.put(fields(i).getFieldName, fields(i).getValue)
+          addField(i +(1))
         }
       }
       addField(0)

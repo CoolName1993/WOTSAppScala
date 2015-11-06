@@ -157,7 +157,7 @@ object SQLConnector {
       // Iterate over the result set
       def storeObjectRow(x: Int) {
         def storeObjectColumn(y: Int) {
-          if(y <= columns.size) {
+          if(y < columns.size) {
             var rsMetaData: ResultSetMetaData = resultSet.getMetaData
             val resultType = rsMetaData.getColumnType(y)
             resultType match {
