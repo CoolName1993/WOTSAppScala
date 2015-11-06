@@ -47,7 +47,7 @@ class LoginWindow(stage: PrimaryStage) {
 
     // Create a welcome label
     val scenetitle = new Text("Welcome")
-    scenetitle.setFont(Font.font("Jokerman", FontWeight.Normal, 20))
+    scenetitle.setFont(Font.font("Tahoma", FontWeight.Normal, 20))
     grid.add(scenetitle, 0, 0, 2, 1)
 
     // Create a user name label
@@ -69,7 +69,7 @@ class LoginWindow(stage: PrimaryStage) {
     // Set up the log in button
     val btn = new Button("Log in") {
       onAction = handle {
-        new LoginController(stage, userTextField.text.toString(), pwBox.text.toString())
+        new LoginController(stage, userTextField.text.value, pwBox.getText)
         // Do stuff
       }
     }

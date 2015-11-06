@@ -142,6 +142,7 @@ object SQLConnector {
       val statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)
 
       // Execute the query
+      println("SELECT * FROM " + tableName + " WHERE " + createColumnValuePairs)
       val resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE " + createColumnValuePairs)
 
       // Get result length

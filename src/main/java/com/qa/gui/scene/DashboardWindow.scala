@@ -26,8 +26,10 @@ import scalafx.scene.text.Font.sfxFont2jfx
 import scalafx.scene.text.FontWeight.sfxEnum2jfx
 import scalafx.scene.text.Text.sfxText2jfx
 import scalafx.stage.Stage.sfxStage2jfx
-
 import scalafx.application.JFXApp.PrimaryStage
+import scalafx.scene.paint.LinearGradient
+import scalafx.scene.paint.Stops
+import scalafx.scene.effect.DropShadow
 
 /**
  * @author cboucher
@@ -44,11 +46,26 @@ class DashboardWindow(stage: PrimaryStage) {
     grid.setPadding(Insets(25, 25, 25, 25))
 
     // Create the scene
-    val scene = new Scene(grid, 300, 275)
+    val scene = new Scene(grid, 300, 275) {
+      fill = new LinearGradient(
+        endX = 0,
+        stops = Stops(Cyan, DodgerBlue))
+    }
 
     // Create a welcome label
-    val scenetitle = new Text("LOGGED IN")
-    scenetitle.setFont(Font.font("Tahoma", FontWeight.Normal, 20))
+    val scenetitle = new Text() {
+      text = "LOGGED IN"
+      style = "-fx-font-size: 48pt"
+      font = Font.font("Tahoma", FontWeight.Normal, 20)
+      fill = new LinearGradient(
+        endX = 0,
+        stops = Stops(Cyan, DodgerBlue))
+      effect = new DropShadow {
+        color = DodgerBlue
+        radius = 25
+        spread = 0.25
+      }
+    }
     grid.add(scenetitle, 0, 0, 2, 1)
     scene
   }

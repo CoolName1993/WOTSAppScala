@@ -38,7 +38,7 @@ class LoginController(stage: PrimaryStage, userName: String, password: String) {
     }
     val searchValues = Array(new Column("idUser", userName), new Column("password", encryptPassword))
     val currentUser = SQLConnector.read("user", searchValues)
-    if (currentUser != null) {
+    if (currentUser.size > 0) {
       new DashboardWindow(stage)
     }
   }
