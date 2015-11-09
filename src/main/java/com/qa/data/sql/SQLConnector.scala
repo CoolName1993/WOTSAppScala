@@ -124,10 +124,12 @@ object SQLConnector {
       var output = ""
       def createPairs(i: Int) {
         if (i < columns.size) {
-          if (i == 0) {
-            output = columns(i).getColumnName + "='" + columns(i).getValue + "'"
-          } else {
-            output = output + " AND " + columns(i).getColumnName + "='" + columns(i).getValue + "'"
+          if(columns(i).getValue != null) {
+            if (i == 0) {
+              output = columns(i).getColumnName + "='" + columns(i).getValue + "'"
+            } else {
+              output = output + " AND " + columns(i).getColumnName + "='" + columns(i).getValue + "'"
+            }
           }
           createPairs(i + (1))
         }     
@@ -160,7 +162,7 @@ object SQLConnector {
         def storeObjectColumn(y: Int) {
           if(y < columns.size) {
             var rsMetaData: ResultSetMetaData = resultSet.getMetaData
-            val resultType = rsMetaData.getColumnType(y)
+            val resultType = rsMetaData.getColumnType(y +(1))
             resultType match {
               case Types.INTEGER => outputArray(x)(y) = resultSet.getInt(columns(y).getColumnName)
               case Types.DATE => outputArray(x)(y) = resultSet.getDate(columns(y).getColumnName)

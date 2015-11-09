@@ -30,44 +30,84 @@ import scalafx.application.JFXApp.PrimaryStage
 import scalafx.scene.paint.LinearGradient
 import scalafx.scene.paint.Stops
 import scalafx.scene.effect.DropShadow
+import scalafx.scene.shape.Rectangle
+import scalafx.scene.layout.BorderPane
+import scalafx.scene.layout.VBox
+import scalafx.scene.layout.FlowPane
+import scalafx.scene.input.MouseEvent
+import com.qa.gui.panel.DeliveryPanel
+import scalafx.scene.layout.StackPane
+import com.qa.gui.panel.CustomerOrderPanel
+import com.qa.gui.panel.Toolbar
 
 /**
  * @author cboucher
  */
 class DashboardWindow(stage: PrimaryStage) {
+  val HEIGHT = 768
+  val WIDTH = 1024
   stage.setTitle("Log In")
-  def createScene(): Scene = {
 
-    // Set up the grid
-    var grid = new GridPane()
-    grid.setAlignment(Pos.Center)
-    grid.setHgap(10)
-    grid.setVgap(10)
-    grid.setPadding(Insets(25, 25, 25, 25))
-
-    // Create the scene
-    val scene = new Scene(grid, 300, 275) {
-      fill = new LinearGradient(
-        endX = 0,
-        stops = Stops(Cyan, DodgerBlue))
-    }
-
-    // Create a welcome label
-    val scenetitle = new Text() {
-      text = "LOGGED IN"
-      style = "-fx-font-size: 48pt"
-      font = Font.font("Tahoma", FontWeight.Normal, 20)
-      fill = new LinearGradient(
-        endX = 0,
-        stops = Stops(Cyan, DodgerBlue))
-      effect = new DropShadow {
-        color = DodgerBlue
-        radius = 25
-        spread = 0.25
+  def createButton(title: String, panel: () => Unit): StackPane = {
+    var stack = new StackPane()
+    var button = new Rectangle() {
+      width = 200
+      height = 50
+      fill = Grey
+      onMouseClicked = (me: MouseEvent) => {
+        panel()
+      }
+      onMouseEntered = (me: MouseEvent) => {
+        fill = LightGrey
+      }
+      onMouseExited = (me: MouseEvent) => {
+        fill = Grey
       }
     }
-    grid.add(scenetitle, 0, 0, 2, 1)
+    var text = new Text(title) {
+      fill = Black
+      font = Font.font("Tahoma", 16)
+    }
+    text.setMouseTransparent(true)
+    stack.children.addAll(button, text)
+    stack
+  }
+
+  def createTitle(title: String): StackPane = {
+    var stack = new StackPane()
+    var back = new Rectangle() {
+      width = 200
+      height = 100
+      fill = DarkBlue
+    }
+    var text = new Text(title) {
+      fill = White
+    }
+    stack.children.addAll(back, text)
+    stack
+  }
+
+  def createScene(): Scene = {
+
+    var border = new BorderPane()
+    var flow = new FlowPane()
+    flow.setPrefWrapLength(150)
+
+    // Create the scene
+    val scene = new Scene(border, WIDTH, HEIGHT)
+
+    def setDeliveries() {
+      border.center = new DeliveryPanel()
+    }
+    def setCustomers() {
+      border.center = new CustomerOrderPanel()
+    }
+
+    flow.children.addAll(createTitle("Deliveries"), createButton("Available", setDeliveries), createButton("Assigned", setDeliveries), createTitle("Customer Orders"), createButton("Available", setCustomers), createButton("Assigned", setCustomers))
+    border.left = flow
+    border.top = new Toolbar(stage)
     scene
   }
   stage.setScene(createScene)
+  stage.centerOnScreen()
 }

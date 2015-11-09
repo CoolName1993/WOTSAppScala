@@ -27,6 +27,8 @@ import scalafx.scene.text.FontWeight.sfxEnum2jfx
 import scalafx.scene.text.Text.sfxText2jfx
 import scalafx.stage.Stage.sfxStage2jfx
 import com.qa.gui.controller.LoginController
+import scalafx.scene.layout.BorderPane
+import com.qa.gui.panel.Toolbar
 
 /**
  * @author cboucher
@@ -34,6 +36,8 @@ import com.qa.gui.controller.LoginController
 class LoginWindow(stage: PrimaryStage) {
   stage.setTitle("Log In")
   def createScene(): Scene = {
+
+    var border = new BorderPane()
 
     // Set up the grid
     var grid = new GridPane()
@@ -43,7 +47,7 @@ class LoginWindow(stage: PrimaryStage) {
     grid.setPadding(Insets(25, 25, 25, 25))
 
     // Create the scene
-    val scene = new Scene(grid, 300, 275)
+    val scene = new Scene(border, 300, 275)
 
     // Create a welcome label
     val scenetitle = new Text("Welcome")
@@ -77,6 +81,8 @@ class LoginWindow(stage: PrimaryStage) {
     hbBtn.setAlignment(Pos.BottomRight)
     hbBtn.getChildren().add(btn)
     grid.add(hbBtn, 1, 4)
+    border.center = grid
+    border.top = new Toolbar(stage)
     scene
   }
   stage.setScene(createScene)
