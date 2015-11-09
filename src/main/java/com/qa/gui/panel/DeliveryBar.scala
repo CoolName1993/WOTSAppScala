@@ -9,18 +9,22 @@ import scalafx.scene.text._
 import scalafx.scene.layout.StackPane
 import javafx.scene.layout.HBox
 import scalafx.scene.layout.VBox
+import scalafx.scene.paint.Color
 
 /**
  * @author cboucher
  */
 class DeliveryBar extends BorderPane {
-  val good = Green
-  val bad = Crimson
+  val good = Color.rgb(82, 167, 7)
+  val goodHighlight = Color.rgb(120, 214, 36)
+  val bad = Color.rgb(186, 13, 8)
+  val badHighlight = Color.rgb(239, 46, 41)
   var expanded = false
   var current = bad
   def status(): StackPane = {
     var text = new Text("Inactive") {
-      fill = Black
+      fill = White
+      font = Font.font("Tahoma")
     }
     text.setMouseTransparent(true)
     var statusBox = new Rectangle() {
@@ -30,19 +34,19 @@ class DeliveryBar extends BorderPane {
       onMouseClicked = (me: MouseEvent) => {
         if (current == good) {
           current = bad
-          fill = Red
+          fill = badHighlight
           text.text = "Inactive"
         } else {
           current = good
-          fill = Lime
+          fill = goodHighlight
           text.text = "Active"
         }
       }
       onMouseEntered = (me: MouseEvent) => {
         if (current == good) {
-          fill = Lime
+          fill = goodHighlight
         } else {
-          fill = Red
+          fill = badHighlight
         }
       }
       onMouseExited = (me: MouseEvent) => {
@@ -77,6 +81,7 @@ class DeliveryBar extends BorderPane {
     }
     var text = new Text("V") {
       fill = Black
+      font = Font.font("Tahoma")
     }
     text.setMouseTransparent(true)
     var stack = new StackPane()

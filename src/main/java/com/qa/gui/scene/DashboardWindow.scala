@@ -39,6 +39,7 @@ import com.qa.gui.panel.DeliveryPanel
 import scalafx.scene.layout.StackPane
 import com.qa.gui.panel.CustomerOrderPanel
 import com.qa.gui.panel.Toolbar
+import scalafx.scene.paint.Color
 
 /**
  * @author cboucher
@@ -46,26 +47,31 @@ import com.qa.gui.panel.Toolbar
 class DashboardWindow(stage: PrimaryStage) {
   val HEIGHT = 768
   val WIDTH = 1024
+  val titleColour = Color.rgb(99, 206, 168)
+  val buttonNormal = Color.rgb(6, 125, 83)
+  val buttonHighlight = Color.rgb(27, 161, 114)
   stage.setTitle("Log In")
 
+  //http://paletton.com/palette.php?uid=3010h0kqzu2gDIgkbyGu-npwFhv
+  
   def createButton(title: String, panel: () => Unit): StackPane = {
     var stack = new StackPane()
     var button = new Rectangle() {
       width = 200
       height = 50
-      fill = Grey
+      fill = buttonNormal
       onMouseClicked = (me: MouseEvent) => {
         panel()
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = LightGrey
+        fill = buttonHighlight
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = Grey
+        fill = buttonNormal
       }
     }
     var text = new Text(title) {
-      fill = Black
+      fill = White
       font = Font.font("Tahoma", 16)
     }
     text.setMouseTransparent(true)
@@ -78,10 +84,11 @@ class DashboardWindow(stage: PrimaryStage) {
     var back = new Rectangle() {
       width = 200
       height = 100
-      fill = DarkBlue
+      fill = titleColour
     }
     var text = new Text(title) {
-      fill = White
+      fill = Black
+      font = Font.font("Tahoma", 16)
     }
     stack.children.addAll(back, text)
     stack

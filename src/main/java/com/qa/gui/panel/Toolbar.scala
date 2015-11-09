@@ -12,12 +12,15 @@ import scalafx.application.JFXApp.PrimaryStage
 import scalafx.scene.layout.HBox
 import scalafx.scene.image.Image
 import scalafx.scene.image.ImageView
+import scalafx.scene.paint.Color
 
 /**
  * @author cboucher
  */
 class Toolbar(stage: PrimaryStage) extends BorderPane {
   val HEIGHT = 40
+  val bad = Color.rgb(186, 13, 8)
+  val badHighlight = Color.rgb(239, 46, 41)
   def close(): StackPane = {
     var close = new StackPane()
     var rect = new Rectangle() {
@@ -28,10 +31,10 @@ class Toolbar(stage: PrimaryStage) extends BorderPane {
         System.exit(1)
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = Red
+        fill = badHighlight
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = Crimson
+        fill = bad
       }
     }
     var text = new Text("X") {
@@ -48,9 +51,9 @@ class Toolbar(stage: PrimaryStage) extends BorderPane {
     hbox.children.addAll(close)
     hbox
   }
-  
+
   def logo(): ImageView = {
-    var image = new Image("logo.png",150,HEIGHT,true,true)
+    var image = new Image("logo.png", 150, HEIGHT, true, true)
     var imgview = new ImageView(image)
     imgview
   }

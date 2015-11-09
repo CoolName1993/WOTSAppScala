@@ -28,5 +28,4 @@ object Main extends JFXApp {
   stage.resizable = false
   stage.initStyle(StageStyle.UNDECORATED)
   val loginWindow = new LoginWindow(stage)
-
 }
