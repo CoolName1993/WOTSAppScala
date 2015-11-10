@@ -12,6 +12,7 @@ import scalafx.scene.layout.VBox
 import scalafx.scene.paint.Color
 
 /**
+ * One delivery bar in the available delivery tab in the GUI.
  * @author cboucher
  */
 class DeliveryBar extends BorderPane {
@@ -21,6 +22,10 @@ class DeliveryBar extends BorderPane {
   val badHighlight = Color.rgb(239, 46, 41)
   var expanded = false
   var current = bad
+
+  /**
+   * Creates the status button which can be toggled on and off
+   */
   def status(): StackPane = {
     var text = new Text("Inactive") {
       fill = White
@@ -58,6 +63,9 @@ class DeliveryBar extends BorderPane {
     stack
   }
 
+  /**
+   * Creates the dropdown button which is used to expand the row
+   */
   def dropdown(border: BorderPane): StackPane = {
     var text = new Text("V") {
       fill = White
@@ -104,22 +112,20 @@ class DeliveryBar extends BorderPane {
     stack
   }
 
-  def boxTitle = new Rectangle() {
-    width = 100
-    height = 50
-    fill = LightGrey
-  }
-  def boxContent = new Rectangle() {
-    width = 100
-    height = 50
-    fill = White
-  }
-  def largeBoxContent = new Rectangle() {
-    width = 200
-    height = 50
-    fill = White
+  /**
+   *  Creates a box in the bar
+   */
+  def box(setWidth: Int, colour: Color): Rectangle = {
+    new Rectangle() {
+      width = setWidth
+      height = 50
+      fill = colour
+    }
   }
 
+  /**
+   * Creates the main bar
+   */
   def deliveryInfo(): HBox = {
     var deliveryBox = new HBox()
     var expectedTitle = new StackPane()
@@ -128,16 +134,18 @@ class DeliveryBar extends BorderPane {
     var id = new StackPane()
     var employeeTitle = new StackPane()
     var employee = new StackPane()
-    expectedTitle.children.addAll(boxTitle, new Text("Date expected:"))
-    expected.children.addAll(boxContent, new Text("10/10/2015"))
-    idTitle.children.addAll(boxTitle, new Text("ID:"))
-    id.children.addAll(boxContent, new Text("2345"))
-    employeeTitle.children.addAll(boxTitle, new Text("Assignee:"))
-    employee.children.addAll(boxContent, new Text("Al Stock"))
+    expectedTitle.children.addAll(box(100, LightGrey), new Text("Date expected:"))
+    expected.children.addAll(box(100, White), new Text("10/10/2015"))
+    idTitle.children.addAll(box(100, LightGrey), new Text("ID:"))
+    id.children.addAll(box(100, White), new Text("2345"))
+    employeeTitle.children.addAll(box(100, LightGrey), new Text("Assignee:"))
+    employee.children.addAll(box(100, White), new Text("Al Stock"))
     deliveryBox.children.addAll(idTitle, id, expectedTitle, expected, employeeTitle, employee)
     deliveryBox
   }
-
+  /**
+   * Creates the more info bar which displays each item in the delivery
+   */
   def moreInfo(): VBox = {
     def lineInfo(): HBox = {
       var deliveryBox = new HBox()
@@ -147,13 +155,13 @@ class DeliveryBar extends BorderPane {
       var itemName = new StackPane()
       var quantityTitle = new StackPane()
       var quantity = new StackPane()
-      idTitle.children.addAll(boxTitle, new Text("ID:"))
-      id.children.addAll(boxContent, new Text("12"))
-      itemNameTitle.children.addAll(boxTitle, new Text("Item name:"))
-      itemName.children.addAll(largeBoxContent, new Text("Cool Gnome woo"))
-      quantityTitle.children.addAll(boxTitle, new Text("Quantity:"))
-      quantity.children.addAll(boxContent, new Text("12"))
-      deliveryBox.children.addAll(idTitle, id, itemNameTitle, itemName, quantityTitle, quantity)
+      idTitle.children.addAll(box(100, LightGrey), new Text("ID:"))
+      id.children.addAll(box(100, White), new Text("12"))
+      itemNameTitle.children.addAll(box(100, LightGrey), new Text("Item name:"))
+      itemName.children.addAll(box(200, White), new Text("Cool Gnome woo"))
+      quantityTitle.children.addAll(box(100, LightGrey), new Text("Quantity:"))
+      quantity.children.addAll(box(100, White), new Text("12"))
+      deliveryBox.children.addAll(box(100, WhiteSmoke), idTitle, id, itemNameTitle, itemName, quantityTitle, quantity)
       deliveryBox
     }
     var infoPane = new VBox()

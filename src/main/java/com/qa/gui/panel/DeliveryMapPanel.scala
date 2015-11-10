@@ -88,10 +88,10 @@ class DeliveryMapPanel extends BorderPane {
     addChildren
     flow.children.add(new ItemBar())
     flow.children.add(inputAmount)
-    flow.children.add(addButton("Add", placeholder))
-    flow.children.add(addButton("Submit", placeholder))
+    flow.children.add(addButton("Add item", placeholder))
+    flow.children.add(addButton("Submit delivery", placeholder))
     flow
   }
-  this.left = leftPanel
-  this.center = new DeliveryMap()
+  this.center = leftPanel
+  this.left = new DeliveryMap()
 }

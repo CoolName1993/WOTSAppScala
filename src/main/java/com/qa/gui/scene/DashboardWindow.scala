@@ -111,8 +111,11 @@ class DashboardWindow(stage: PrimaryStage) {
     def setCustomers() {
       border.center = new CustomerOrderPanel()
     }
+    def setCustomerMap() {
+      border.center = new CustomerOrderMapPanel()
+    }
 
-    flow.children.addAll(createTitle("Deliveries"), createButton("Available", setDeliveries), createButton("Assigned", setDeliveryMap), createTitle("Customer Orders"), createButton("Available", setCustomers), createButton("Assigned", setCustomers))
+    flow.children.addAll(createTitle("Deliveries"), createButton("Available", setDeliveries), createButton("Assigned", setDeliveryMap), createTitle("Customer Orders"), createButton("Available", setCustomers), createButton("Assigned", setCustomerMap))
     border.left = flow
     border.top = new Toolbar(stage)
     scene
