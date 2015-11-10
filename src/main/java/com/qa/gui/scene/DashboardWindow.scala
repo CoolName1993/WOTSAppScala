@@ -37,8 +37,7 @@ import scalafx.scene.layout.FlowPane
 import scalafx.scene.input.MouseEvent
 import com.qa.gui.panel.DeliveryPanel
 import scalafx.scene.layout.StackPane
-import com.qa.gui.panel.CustomerOrderPanel
-import com.qa.gui.panel.Toolbar
+import com.qa.gui.panel._
 import scalafx.scene.paint.Color
 
 /**
@@ -50,10 +49,10 @@ class DashboardWindow(stage: PrimaryStage) {
   val titleColour = Color.rgb(99, 206, 168)
   val buttonNormal = Color.rgb(6, 125, 83)
   val buttonHighlight = Color.rgb(27, 161, 114)
-  stage.setTitle("Log In")
+  stage.setTitle("Warehouse Order Tracking Application")
 
   //http://paletton.com/palette.php?uid=3010h0kqzu2gDIgkbyGu-npwFhv
-  
+
   def createButton(title: String, panel: () => Unit): StackPane = {
     var stack = new StackPane()
     var button = new Rectangle() {
@@ -106,11 +105,14 @@ class DashboardWindow(stage: PrimaryStage) {
     def setDeliveries() {
       border.center = new DeliveryPanel()
     }
+    def setDeliveryMap() {
+      border.center = new DeliveryMapPanel()
+    }
     def setCustomers() {
       border.center = new CustomerOrderPanel()
     }
 
-    flow.children.addAll(createTitle("Deliveries"), createButton("Available", setDeliveries), createButton("Assigned", setDeliveries), createTitle("Customer Orders"), createButton("Available", setCustomers), createButton("Assigned", setCustomers))
+    flow.children.addAll(createTitle("Deliveries"), createButton("Available", setDeliveries), createButton("Assigned", setDeliveryMap), createTitle("Customer Orders"), createButton("Available", setCustomers), createButton("Assigned", setCustomers))
     border.left = flow
     border.top = new Toolbar(stage)
     scene

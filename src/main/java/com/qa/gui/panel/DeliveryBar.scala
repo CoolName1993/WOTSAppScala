@@ -59,6 +59,11 @@ class DeliveryBar extends BorderPane {
   }
 
   def dropdown(border: BorderPane): StackPane = {
+    var text = new Text("V") {
+      fill = White
+      font = Font.font("Tahoma")
+    }
+    text.setMouseTransparent(true)
     var dropdownBox = new Rectangle() {
       width = 100
       height = 50
@@ -66,24 +71,34 @@ class DeliveryBar extends BorderPane {
       onMouseClicked = (me: MouseEvent) => {
         if (expanded) {
           border.bottom = new Rectangle()
+          fill = Grey
+          text.rotate = 0
+          text.fill = White
           expanded = false
         } else {
           border.bottom = moreInfo
           expanded = true
+          fill = LightGrey
+          text.rotate = 180
+          text.fill = Black
         }
       }
       onMouseEntered = (me: MouseEvent) => {
         fill = LightGrey
+        text.fill = Black
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = Grey
+        if (expanded) {
+          fill = LightGrey
+          text.fill = Black
+        } else {
+          fill = Grey
+          text.fill = White
+        }
+
       }
     }
-    var text = new Text("V") {
-      fill = Black
-      font = Font.font("Tahoma")
-    }
-    text.setMouseTransparent(true)
+
     var stack = new StackPane()
     stack.children.addAll(dropdownBox, text)
     stack

@@ -23,23 +23,25 @@ class Toolbar(stage: PrimaryStage) extends BorderPane {
   val badHighlight = Color.rgb(239, 46, 41)
   def close(): StackPane = {
     var close = new StackPane()
+    var text = new Text("X") {
+      fill = Grey
+      font = Font.font("Tahoma", 16)
+    }
     var rect = new Rectangle() {
       width = 60
       height = HEIGHT
-      fill = Crimson
+      fill = LightGrey
       onMouseClicked = (me: MouseEvent) => {
         System.exit(1)
       }
       onMouseEntered = (me: MouseEvent) => {
         fill = badHighlight
+        text.fill = White
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = bad
+        fill = LightGrey
+        text.fill = Grey
       }
-    }
-    var text = new Text("X") {
-      fill = White
-      font = Font.font("Tahoma", 16)
     }
     text.setMouseTransparent(true)
     close.children.addAll(rect, text)

@@ -9,28 +9,20 @@ import scalafx.scene.layout.VBox
  */
 class DeliveryPanel() extends BorderPane {
 
-  def createPanel() {
-    val test = new Rectangle() {
-      width = 400
-      height = 400
-    }
-    this.left = test
-  }
-
-  def testPanel(): VBox = {
-    var test = new VBox
+  def tablePanel(): VBox = {
+    var table = new VBox
     def addRow(i: Int) {
       if (i < 30) {
-        test.children.add(new DeliveryBar())
+        table.children.add(new DeliveryBar())
         addRow(i + (1))
       }
     }
     addRow(0)
-    test
+    table
   }
 
   var deliveries = new ScrollPane()
-  deliveries.setContent(testPanel)
+  deliveries.setContent(tablePanel)
 
   this.center = deliveries
 }

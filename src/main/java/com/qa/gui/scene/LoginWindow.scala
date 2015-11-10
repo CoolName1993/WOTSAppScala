@@ -29,6 +29,10 @@ import scalafx.stage.Stage.sfxStage2jfx
 import com.qa.gui.controller.LoginController
 import scalafx.scene.layout.BorderPane
 import com.qa.gui.panel.Toolbar
+import scalafx.scene.layout.StackPane
+import scalafx.scene.shape.Rectangle
+import scalafx.scene.input.MouseEvent
+import scalafx.scene.paint.Color
 
 /**
  * @author cboucher
@@ -71,15 +75,35 @@ class LoginWindow(stage: PrimaryStage) {
     grid.add(pwBox, 1, 2)
 
     // Set up the log in button
-    val btn = new Button("Log in") {
-      onAction = handle {
-        new LoginController(stage, userTextField.text.value, pwBox.getText)
-        // Do stuff
+    def login(): StackPane = {
+      val good = Color.rgb(82, 167, 7)
+      val goodHighlight = Color.rgb(120, 214, 36)
+      var close = new StackPane()
+      var text = new Text("Log in") {
+        fill = White
+        font = Font.font("Tahoma", 16)
       }
+      var rect = new Rectangle() {
+        width = 60
+        height = 40
+        fill = good
+        onMouseClicked = (me: MouseEvent) => {
+          new LoginController(stage, userTextField.text.value, pwBox.getText)
+        }
+        onMouseEntered = (me: MouseEvent) => {
+          fill = goodHighlight
+        }
+        onMouseExited = (me: MouseEvent) => {
+          fill = good
+        }
+      }
+      text.setMouseTransparent(true)
+      close.children.addAll(rect, text)
+      close
     }
     var hbBtn = new HBox(10)
     hbBtn.setAlignment(Pos.BottomRight)
-    hbBtn.getChildren().add(btn)
+    hbBtn.getChildren().add(login)
     grid.add(hbBtn, 1, 4)
     border.center = grid
     border.top = new Toolbar(stage)
