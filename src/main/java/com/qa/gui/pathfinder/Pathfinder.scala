@@ -9,8 +9,8 @@ import scala.collection.mutable.PriorityQueue
  */
 class Pathfinder {
 
-  val vertexList = new ListBuffer[Vertex]()
-  var vMap = vertexMap
+  val vertexList = new ListBuffer[Vertex]
+  
   val map = Array(
     Array(2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2),
     Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
@@ -24,6 +24,7 @@ class Pathfinder {
     Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
     Array(2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2))
   var outputMap = map
+  var vMap = vertexMap
 
   // Fill the vertex map with new vertexes
   def vertexMap(): Array[Array[Vertex]] = {
@@ -139,14 +140,17 @@ class Pathfinder {
   /**
    * Performs the pathfinder algorithm on the vertex list and returns a map with the paths on it.
    */
-  def pathfind(input: Array[Array[Int]]): Array[Array[Int]] = {
+  def pathfind(input: Array[ListBuffer[Int]]): Array[Array[Int]] = {
 
     // Add a location to the vertex list
     def loop(n: Int) {
-      if(n < input.length) {
+      if (n < input.length) {
         // Add a vertex to the list
-      vertexList.+=(vMap(input(n)(0))(input(n)(1)))
-      loop(n +(1))
+        println("hello")
+        println(input(n)(0))
+        println(input(n)(1))
+        vertexList.+=(vMap(input(n)(0))(input(n)(1)))
+        loop(n + (1))
       }
     }
     loop(0)

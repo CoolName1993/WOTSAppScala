@@ -10,6 +10,7 @@ import scalafx.scene.paint.Color._
 import scalafx.scene.text.Text
 import scalafx.scene.text.Font
 import scalafx.scene.input.MouseEvent
+import com.qa.gui.controller.CustomerOrderMapController
 
 /**
  * @author cboucher
@@ -51,7 +52,7 @@ class CustomerOrderMapPanel extends BorderPane {
     vbox
   }
 
-  this.left = new CustomerOrderMap
+  this.left = new CustomerOrderMapController().getCurrentMap
   this.center = rightPanel
 
 }

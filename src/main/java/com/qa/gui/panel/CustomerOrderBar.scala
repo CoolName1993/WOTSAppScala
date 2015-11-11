@@ -12,6 +12,7 @@ import scalafx.scene.layout.HBox
 import scalafx.scene.layout.VBox
 import com.qa.data.entity.{ CustomerOrder, Item }
 import com.qa.data.entity.QueryLoader
+import com.qa.application.Session
 
 /**
  * One order bar in the available customer order tab in the GUI
@@ -47,7 +48,9 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
           current = bad
           fill = badHighlight
           text.text = "Inactive"
+          Session.currentCustomerOrder = null
         } else {
+          Session.currentCustomerOrder = customerOrder
           current = good
           fill = goodHighlight
           text.text = "Active"

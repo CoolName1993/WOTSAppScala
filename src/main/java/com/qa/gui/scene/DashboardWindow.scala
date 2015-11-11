@@ -39,6 +39,7 @@ import com.qa.gui.panel.DeliveryPanel
 import scalafx.scene.layout.StackPane
 import com.qa.gui.panel._
 import scalafx.scene.paint.Color
+import com.qa.application.Session
 
 /**
  * @author cboucher
@@ -104,15 +105,19 @@ class DashboardWindow(stage: PrimaryStage) {
 
     def setDeliveries() {
       border.center = new DeliveryPanel()
+      println(Session.currentCustomerOrder)
     }
     def setDeliveryMap() {
       border.center = new DeliveryMapPanel()
+      println(Session.currentCustomerOrder)
     }
     def setCustomers() {
       border.center = new CustomerOrderPanel()
+      println(Session.currentCustomerOrder)
     }
     def setCustomerMap() {
       border.center = new CustomerOrderMapPanel()
+      println(Session.currentCustomerOrder)
     }
 
     flow.children.addAll(createTitle("Deliveries"), createButton("Available", setDeliveries), createButton("Assigned", setDeliveryMap), createTitle("Customer Orders"), createButton("Available", setCustomers), createButton("Assigned", setCustomerMap))

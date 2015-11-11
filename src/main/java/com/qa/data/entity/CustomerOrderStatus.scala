@@ -8,7 +8,7 @@ import com.qa.data.sql.{ Entity, Column }
  * @param status_ The string representation of the status.
  * @author cboucher
  */
-case class CustomerOrderStatus(idCustomerOrderStatus_ : Int, status_ : String) extends Entity {
+case class CustomerOrderStatus(idCustomerOrderStatus_ : Any, status_ : String) extends Entity {
   val tableName = "customerorderstatus"
   val idCustomerOrderStatus = new Column("idCustomerOrderStatus", idCustomerOrderStatus_)
   val status = new Column("status", status_)

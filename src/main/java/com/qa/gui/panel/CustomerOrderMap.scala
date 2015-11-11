@@ -10,19 +10,7 @@ import scalafx.scene.layout.GridPane
 /**
  * @author cboucher
  */
-class CustomerOrderMap extends GridPane {
-  val map = Array(
-    Array(2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2),
-    Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-    Array(2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2))
+case class CustomerOrderMap(map: Array[Array[Int]]) extends GridPane {
 
   def createTile(x: Int, y: Int): Rectangle = {
     var colour = White
@@ -30,6 +18,7 @@ class CustomerOrderMap extends GridPane {
       case 0 => colour = White
       case 1 => colour = Color.rgb(107, 120, 115)
       case 2 => colour = Color.rgb(116, 97, 96)
+      case 3 => colour = Blue
       case _ => colour = White
     }
     var tile = new Rectangle() {
