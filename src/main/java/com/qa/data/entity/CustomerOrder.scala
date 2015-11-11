@@ -15,7 +15,7 @@ import com.qa.data.sql.{ Entity, Column }
  * @param idCustomer_ The customer ID.
  * @author cboucher
  */
-case class CustomerOrder(idCustomerOrder_ : Int, datePlaced_ : Date, dateShipped_ : Date, isPaid_ : Boolean, idAddress_ : Int, idCustomerOrderStatus_ : Int, idEmployee_ : Int, idCustomer_ : Int) extends Entity {
+case class CustomerOrder(idCustomerOrder_ : Any, datePlaced_ : Date, dateShipped_ : Date, isPaid_ : Any, idAddress_ : Any, idCustomerOrderStatus_ : Any, idEmployee_ : Any, idCustomer_ : Any) extends Entity {
   val tableName = "customerorder"
   val idCustomerOrder = new Column("idCustomerOrder", idCustomerOrder_)
   val datePlaced = new Column("datePlaced", datePlaced_)

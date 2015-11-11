@@ -10,12 +10,14 @@ import scalafx.scene.layout.StackPane
 import javafx.scene.layout.HBox
 import scalafx.scene.layout.VBox
 import scalafx.scene.paint.Color
+import com.qa.data.entity.PurchaseOrder
+import com.qa.data.entity.QueryLoader
 
 /**
  * One delivery bar in the available delivery tab in the GUI.
  * @author cboucher
  */
-class DeliveryBar extends BorderPane {
+case class DeliveryBar(purchaseOrder: PurchaseOrder) extends BorderPane {
   val good = Color.rgb(82, 167, 7)
   val goodHighlight = Color.rgb(120, 214, 36)
   val bad = Color.rgb(186, 13, 8)
@@ -135,11 +137,11 @@ class DeliveryBar extends BorderPane {
     var employeeTitle = new StackPane()
     var employee = new StackPane()
     expectedTitle.children.addAll(box(100, LightGrey), new Text("Date expected:"))
-    expected.children.addAll(box(100, White), new Text("10/10/2015"))
-    idTitle.children.addAll(box(100, LightGrey), new Text("ID:"))
-    id.children.addAll(box(100, White), new Text("2345"))
+    expected.children.addAll(box(100, White), new Text(purchaseOrder.dateExpected.getValue.toString))
+    idTitle.children.addAll(box(100, LightGrey), new Text("Order ID:"))
+    id.children.addAll(box(100, White), new Text(purchaseOrder.idPurchaseOrder.getValue.toString))
     employeeTitle.children.addAll(box(100, LightGrey), new Text("Assignee:"))
-    employee.children.addAll(box(100, White), new Text("Al Stock"))
+    employee.children.addAll(box(100, White), new Text(purchaseOrder.idEmployee.getValue.toString))
     deliveryBox.children.addAll(idTitle, id, expectedTitle, expected, employeeTitle, employee)
     deliveryBox
   }
@@ -147,31 +149,29 @@ class DeliveryBar extends BorderPane {
    * Creates the more info bar which displays each item in the delivery
    */
   def moreInfo(): VBox = {
-    def lineInfo(): HBox = {
-      var deliveryBox = new HBox()
-      var idTitle = new StackPane()
-      var id = new StackPane()
-      var itemNameTitle = new StackPane()
-      var itemName = new StackPane()
-      var quantityTitle = new StackPane()
-      var quantity = new StackPane()
-      idTitle.children.addAll(box(100, LightGrey), new Text("ID:"))
-      id.children.addAll(box(100, White), new Text("12"))
-      itemNameTitle.children.addAll(box(100, LightGrey), new Text("Item name:"))
-      itemName.children.addAll(box(200, White), new Text("Cool Gnome woo"))
-      quantityTitle.children.addAll(box(100, LightGrey), new Text("Quantity:"))
-      quantity.children.addAll(box(100, White), new Text("12"))
-      deliveryBox.children.addAll(box(100, WhiteSmoke), idTitle, id, itemNameTitle, itemName, quantityTitle, quantity)
-      deliveryBox
-    }
+    var lineList = QueryLoader.searchPurchaseOrderLine(purchaseOrder)
     var infoPane = new VBox()
-    def addRow(i: Int) {
-      if (i < 5) {
-        infoPane.children.add(lineInfo)
-        addRow(i + (1))
+    def lineInfo(i: Int): Unit = {
+      if (i < lineList.size) {
+        var deliveryBox = new HBox()
+        var idTitle = new StackPane()
+        var id = new StackPane()
+        var quantityTitle = new StackPane()
+        var quantity = new StackPane()
+        var quantityDTitle = new StackPane()
+        var quantityD = new StackPane()
+        idTitle.children.addAll(box(100, LightGrey), new Text("Item ID:"))
+        id.children.addAll(box(100, White), new Text(lineList(i).idItem.getValue.toString()))
+        quantityTitle.children.addAll(box(100, LightGrey), new Text("Quantity:"))
+        quantity.children.addAll(box(100, White), new Text(lineList(i).quantity.getValue.toString()))
+        quantityDTitle.children.addAll(box(100, LightGrey), new Text("Damaged:"))
+        quantityD.children.addAll(box(100, White), new Text(lineList(i).quantityDamaged.getValue.toString()))
+        deliveryBox.children.addAll(box(100, WhiteSmoke), idTitle, id, quantityTitle, quantity, quantityDTitle, quantityD)
+        infoPane.children.add(deliveryBox)
+        lineInfo(i + (1))
       }
     }
-    addRow(0)
+    lineInfo(0)
     infoPane
   }
 

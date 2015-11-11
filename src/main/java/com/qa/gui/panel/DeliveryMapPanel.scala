@@ -13,11 +13,12 @@ import scalafx.scene.paint.Color
 import scalafx.scene.layout.VBox
 import scalafx.scene.control.TextField
 import scalafx.scene.input.MouseEvent
+import com.qa.gui.controller.DeliveryMapController
 
 /**
  * @author cboucher
  */
-class DeliveryMapPanel extends BorderPane {
+class DeliveryMapPanel() extends BorderPane {
   val good = Color.rgb(82, 167, 7)
   val goodHighlight = Color.rgb(120, 214, 36)
   val bad = Color.rgb(186, 13, 8)
@@ -73,19 +74,6 @@ class DeliveryMapPanel extends BorderPane {
   def leftPanel(): FlowPane = {
     var flow = new FlowPane()
     flow.setPrefWrapLength(153)
-
-    def addChildren() {
-      //get list of selected orders from database
-      def addRow(i: Int) {
-        if (i < 5) {
-          flow.children.add(addButton("placeholder", placeholder))
-          addRow(i + (1))
-        }
-      }
-      addRow(0)
-    }
-
-    addChildren
     flow.children.add(new ItemBar())
     flow.children.add(inputAmount)
     flow.children.add(addButton("Add item", placeholder))
@@ -93,5 +81,5 @@ class DeliveryMapPanel extends BorderPane {
     flow
   }
   this.center = leftPanel
-  this.left = new DeliveryMap()
+  this.left = new DeliveryMapController().getCurrentMap
 }

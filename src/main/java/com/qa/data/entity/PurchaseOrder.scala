@@ -13,7 +13,7 @@ import java.sql.Date
  * @param idEmployee_ The employee ID.
  * @author cboucher
  */
-case class PurchaseOrder(idPurchaseOrder_ : Int, datePlaced_ : Date, dateExpected_ : Date, idPurchaseOrderStatus_ : Int, idSupplier_ : Int, idEmployee_ : Int) extends Entity {
+case class PurchaseOrder(idPurchaseOrder_ : Any, datePlaced_ : Date, dateExpected_ : Date, idPurchaseOrderStatus_ : Any, idSupplier_ : Any, idEmployee_ : Any) extends Entity {
   val tableName: String = "purchaseorder"
   val idPurchaseOrder = new Column("idPurchaseOrder", idPurchaseOrder_)
   val datePlaced = new Column("datePlaced", datePlaced_)

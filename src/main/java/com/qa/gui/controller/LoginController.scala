@@ -8,6 +8,8 @@ import com.qa.gui.scene.DashboardWindow
 import java.security.MessageDigest
 import java.util.Formatter
 import com.qa.data.entity.EntityConvertor
+import com.qa.application.Session
+import com.qa.data.entity.QueryLoader
 
 /**
  * Controller behind the login window. Used to check for a valid user and change scene.
@@ -46,16 +48,11 @@ class LoginController(stage: PrimaryStage, userName: String, password: String) {
       }
     }
     try {
-      val searchUser = new User(userName.toInt, encryptPassword, null, null, null, 1)
-      val searchValues = Array(searchUser.idUser, searchUser.password, searchUser.forename, searchUser.surname, searchUser.email, searchUser.isEmployee)
-      val currentUser = SQLConnector.read(searchUser.tableName, searchValues)
-      if (currentUser.size != 0) {
-        val user = EntityConvertor.convertToUser(currentUser(0))
-        if (user.idUser.getValue != null) {
-          new DashboardWindow(stage)
-        }
-      } else {
-        println("ERROR ERROR")
+      val selectedUser = new User(userName.toInt,encryptPassword,null,null,null,1)
+      var user = QueryLoader.searchUser(selectedUser)
+      if (user.idUser != null) {
+        Session.currentUser = user
+        val dashboard = new DashboardWindow(stage)
       }
     } catch {
       case e: Exception => e.printStackTrace()

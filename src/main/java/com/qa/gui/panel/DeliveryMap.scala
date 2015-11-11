@@ -10,19 +10,7 @@ import scalafx.scene.layout.GridPane
 /**
  * @author cboucher
  */
-class DeliveryMap extends GridPane{
-  val map = Array(
-    Array(2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2),
-    Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-    Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-    Array(2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2))
+case class DeliveryMap(map: Array[Array[Int]]) extends GridPane{
 
   def createTile(x : Int, y: Int): Rectangle = {
     var colour = White

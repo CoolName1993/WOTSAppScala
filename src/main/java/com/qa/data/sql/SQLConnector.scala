@@ -125,16 +125,25 @@ object SQLConnector {
       def createPairs(i: Int) {
         if (i < columns.size) {
           if(columns(i).getValue != null) {
-            if (i == 0) {
-              output = columns(i).getColumnName + "='" + columns(i).getValue + "'"
-            } else {
               output = output + " AND " + columns(i).getColumnName + "='" + columns(i).getValue + "'"
-            }
           }
           createPairs(i + (1))
-        }     
+        }
       }
-      createPairs(0)
+      def findFirst(j: Int) {
+        if(j < columns.size) {
+          if (columns(j).getValue == null) {
+            findFirst(j+(1))
+          }
+          else
+          {
+            println("SUCCESS")
+            output = " WHERE " + columns(j).getColumnName + "='" + columns(j).getValue + "'"
+            createPairs(j)
+          }
+        }
+      }
+      findFirst(0)
       output
     }
     try {
@@ -144,8 +153,8 @@ object SQLConnector {
       val statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)
 
       // Execute the query
-      println("SELECT * FROM " + tableName + " WHERE " + createColumnValuePairs)
-      val resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE " + createColumnValuePairs)
+      println("SELECT * FROM " + tableName + createColumnValuePairs)
+      val resultSet = statement.executeQuery("SELECT * FROM " + tableName + createColumnValuePairs)
 
       // Get result length
       var rowCount: Int = 0;
