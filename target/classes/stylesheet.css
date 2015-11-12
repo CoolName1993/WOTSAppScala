@@ -7,11 +7,6 @@
     -fx-font-family: "Tahoma";
 }
 
-.textfield {
-    -fx-font-size: 24pt;
-    -fx-font-family: "Tahoma";
-    -fx-pref-width: 153px;
-}
 
 #light-colour {
     -fx-fill: #FFFFFF;

@@ -87,7 +87,7 @@ class DashboardWindow(stage: PrimaryStage) {
     stack
   }
 
-  def createScene(): Scene = {    
+  def createScene(): Scene = {
     var border = new BorderPane()
     var flow = new FlowPane()
     flow.setPrefWrapLength(150)
@@ -116,6 +116,7 @@ class DashboardWindow(stage: PrimaryStage) {
     flow.children.addAll(createTitle("Deliveries"), createButton("Available", setDeliveries), createButton("Assigned", setDeliveryMap), createTitle("Customer Orders"), createButton("Available", setCustomers), createButton("Assigned", setCustomerMap))
     border.left = flow
     border.top = new Toolbar(stage)
+    border.center = new DeliveryPanel
     scene
   }
   stage.setScene(createScene)
