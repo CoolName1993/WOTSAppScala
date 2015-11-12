@@ -51,28 +51,39 @@ class LoginWindow(stage: PrimaryStage) {
     grid.setPadding(Insets(25, 25, 25, 25))
 
     // Create the scene
-    val scene = new Scene(border, 300, 275)
+    val scene = new Scene(border, 1024, 768)
     scene.stylesheets = List(getClass.getResource("/stylesheet.css").toExternalForm())
 
     // Create a welcome label
-    val scenetitle = new Text("Welcome")
-    scenetitle.setFont(Font.font("Tahoma", FontWeight.Normal, 20))
+    val scenetitle = new Text("Welcome") {
+      id = "dark-colour"
+    }
     grid.add(scenetitle, 0, 0, 2, 1)
 
     // Create a user name label
-    val userName = new Label("User Name:")
+    val userName = new Label("User Name:") {
+      id = "dark-colour"
+    }
     grid.add(userName, 0, 1)
 
     // Create the user name text field
     val userTextField = new TextField()
+    userTextField.font = Font.font("Tahoma", 24)
+    userTextField.prefWidth = 153
+    userTextField.setPromptText("Username")
     grid.add(userTextField, 1, 1)
 
     // Create a a password label
-    val pw = new Label("Password:")
+    val pw = new Label("Password:") {
+      id = "dark-colour"
+    }
     grid.add(pw, 0, 2)
 
     // Create the password text field
     val pwBox = new PasswordField()
+    pwBox.font = Font.font("Tahoma", 24)
+    pwBox.prefWidth = 153
+    pwBox.setPromptText("Password")
     grid.add(pwBox, 1, 2)
 
     // Set up the log in button

@@ -10,47 +10,58 @@ import scalafx.scene.layout.GridPane
 /**
  * @author cboucher
  */
-case class DeliveryMap(map: Array[Array[Int]]) extends GridPane{
+case class DeliveryMap(map: Array[Array[Int]]) extends GridPane {
 
-  def createTile(x : Int, y: Int): Rectangle = {
-    var colour = White
+  def createTile(x: Int, y: Int): Rectangle = {
+    var colour = ""
+    var highlight = ""
     map(x)(y) match {
-      case 0 => colour = White
-      case 1 => colour = Color.rgb(107, 120, 115)
-      case 2 => colour = Color.rgb(116, 97, 96)
-      case _ => colour = White
+      case 0 => {
+        colour = "map-floor"
+        highlight = "map-floor-highlight"
+      }
+      case 1 => {
+        colour = "map-wall"
+        highlight = "map-wall-highlight"
+      }
+      case 2 => {
+        colour = "map-wall-highlight"
+        highlight = "map-wall-highlight"
+      }
+      case _ => {
+        colour = "map-wall-highlight"
+        highlight = "map-wall-highlight"
+      }
     }
     var tile = new Rectangle() {
       width = 61
       height = 61
-      fill = colour
+      id = colour
       onMouseClicked = (me: MouseEvent) => {
-        colour = Blue
-        fill = colour
+        // do stuff
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = Grey
+        id = highlight
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = colour
+        id = colour
       }
     }
     tile
   }
 
   def createMap() {
-    var tileMap: Array[Array[Rectangle]] = Array.ofDim[Rectangle](map.length,map(0).length)
-    def addTiles(x: Int)
-    {
+    var tileMap: Array[Array[Rectangle]] = Array.ofDim[Rectangle](map.length, map(0).length)
+    def addTiles(x: Int) {
       def singleTile(y: Int) {
-        if(y < map(x).length) {
-          this.add(createTile(x,y),y,x)
-          singleTile(y +(1))
+        if (y < map(x).length) {
+          this.add(createTile(x, y), y, x)
+          singleTile(y + (1))
         }
       }
-      if(x < map.length) {
+      if (x < map.length) {
         singleTile(0)
-        addTiles(x +(1))
+        addTiles(x + (1))
       }
     }
     addTiles(0)

@@ -15,40 +15,41 @@ import scalafx.scene.control.TextField
 class ItemBar extends BorderPane {
   var expanded = false
   var selectedItem = ""
+  var selectedStack: StackPane = new StackPane
 
   def itemRow(title: String): StackPane = {
     var stack = new StackPane()
     var text = new Text(title) {
-      fill = Black
-      font = Font.font("Tahoma", 14)
+      id = "table-dark"
     }
     text.setMouseTransparent(true)
     var back = new Rectangle() {
       width = 135
       height = 50
-      fill = White
+      id = "table-field"
       onMouseClicked = (me: MouseEvent) => {
-          selectedItem = title
-          fill = LightGrey
+        selectedItem = title
+        update
+        id = "table-title"
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = LightGrey
+        id = "table-title"
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = White
+        id = "table-field"
       }
     }
     stack.children.addAll(back, text)
     stack
   }
-  
+
   def getRows(): ScrollPane = {
     var scroll = new ScrollPane
     var vbox = new VBox
     def makeRow(i: Int) {
-      if(i < 10) { // change this
-        vbox.children.add(itemRow("Placeholder")) // change this
-        makeRow(i +(1))
+      if (i < 10) { // change this
+        vbox.children.add(itemRow("Item " + i)) // change this
+        makeRow(i + (1))
       }
     }
     makeRow(0)
@@ -60,40 +61,34 @@ class ItemBar extends BorderPane {
   def dropdown(border: BorderPane): StackPane = {
     var stack = new StackPane()
     var text = new Text("V") {
-      fill = White
-      font = Font.font("Tahoma")
+      id = "table-light"
     }
     text.setMouseTransparent(true)
     var dropdownBox = new Rectangle() {
       width = 53
       height = 50
-      fill = Grey
+      id = "button-default"
       onMouseClicked = (me: MouseEvent) => {
         if (expanded) {
           border.bottom = new Rectangle()
-          fill = Grey
+          id = "button-default-highlight"
           text.rotate = 0
-          text.fill = White
           expanded = false
         } else {
           border.bottom = getRows
           expanded = true
-          fill = LightGrey
+          id = "button-default"
           text.rotate = 180
-          text.fill = Black
         }
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = LightGrey
-        text.fill = Black
+        id = "button-default-highlight"
       }
       onMouseExited = (me: MouseEvent) => {
         if (expanded) {
-          fill = LightGrey
-          text.fill = Black
+          id = "button-default-highlight"
         } else {
-          fill = Grey
-          text.fill = White
+          id = "button-default"
         }
       }
     }
@@ -101,22 +96,24 @@ class ItemBar extends BorderPane {
     stack
   }
 
-  def createPanel() {
-    var border = new BorderPane()
-    var stack = new StackPane()
+  def update() {
     var text = new Text(selectedItem) {
-      fill = White
-      font = Font.font("Tahoma", 14)
+      id = "table-dark"
     }
     text.setMouseTransparent(true)
     var back = new Rectangle() {
       width = 100
       height = 50
-      fill = White
+      id = "table-field"
     }
-    stack.children.addAll(back, text)
+    selectedStack.children.addAll(back, text)
+  }
+
+  def createPanel() {
+    var border = new BorderPane()
+    update
     this.right = dropdown(this)
-    this.left = stack
+    this.left = selectedStack
   }
   createPanel
 }

@@ -17,25 +17,24 @@ import com.qa.gui.controller.CustomerOrderMapController
  */
 class CustomerOrderMapPanel extends BorderPane {
 
-  def addButton(title: String, clickFunction: () => Unit): StackPane = {
+  def addButton(title: String, default: String, highlight: String, clickFunction: () => Unit): StackPane = {
     var stack = new StackPane()
     var text = new Text(title) {
-      fill = White
-      font = Font.font("Tahoma", 14)
+      id = "light-colour"
     }
     text.setMouseTransparent(true)
     var back = new Rectangle() {
       width = 153
       height = 50
-      fill = Grey //Replace
+      id = default
       onMouseClicked = (me: MouseEvent) => {
         clickFunction()
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = White //replace
+        id = highlight
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = Grey //replace
+        id = default
       }
     }
     stack.children.addAll(back, text)
@@ -48,7 +47,7 @@ class CustomerOrderMapPanel extends BorderPane {
 
   def rightPanel(): VBox = {
     var vbox = new VBox()
-    vbox.children.addAll(addButton("Collect", placeholder), addButton("Complete", placeholder))
+    vbox.children.addAll(addButton("Collect", "button-default", "button-default-highlight", placeholder), addButton("Complete", "button-good", "button-good-highlight", placeholder))
     vbox
   }
 

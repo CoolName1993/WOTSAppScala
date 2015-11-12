@@ -12,52 +12,50 @@ import scalafx.scene.layout.VBox
 import scalafx.scene.paint.Color
 import com.qa.data.entity.PurchaseOrder
 import com.qa.data.entity.QueryLoader
+import com.qa.application.Session
 
 /**
  * One delivery bar in the available delivery tab in the GUI.
  * @author cboucher
  */
 case class DeliveryBar(purchaseOrder: PurchaseOrder) extends BorderPane {
-  val good = Color.rgb(82, 167, 7)
-  val goodHighlight = Color.rgb(120, 214, 36)
-  val bad = Color.rgb(186, 13, 8)
-  val badHighlight = Color.rgb(239, 46, 41)
   var expanded = false
-  var current = bad
+  var current = "button-bad"
 
   /**
    * Creates the status button which can be toggled on and off
    */
   def status(): StackPane = {
     var text = new Text("Inactive") {
-      fill = White
-      font = Font.font("Tahoma")
+      id = "table-light"
     }
     text.setMouseTransparent(true)
-    var statusBox = new Rectangle() {
+    var statusBox = new Rectangle {
       width = 100
       height = 50
-      fill = current
+      id = current
       onMouseClicked = (me: MouseEvent) => {
-        if (current == good) {
-          current = bad
-          fill = badHighlight
+        if (current == "button-good") {
+          current = "button-bad"
+          id = "button-bad-highlight"
           text.text = "Inactive"
+          Session.currentPurchaseOrder = null
         } else {
-          current = good
-          fill = goodHighlight
+          Session.currentPurchaseOrder = purchaseOrder
+          current = "button-good"
+          id = "button-good-highlight"
           text.text = "Active"
         }
       }
       onMouseEntered = (me: MouseEvent) => {
-        if (current == good) {
-          fill = goodHighlight
+        if (current == "button-good") {
+          id = "button-good-highlight"
         } else {
-          fill = badHighlight
+          id = "button-bad-highlight"
         }
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = current
+        id = current
       }
     }
     var stack = new StackPane()
@@ -70,42 +68,35 @@ case class DeliveryBar(purchaseOrder: PurchaseOrder) extends BorderPane {
    */
   def dropdown(border: BorderPane): StackPane = {
     var text = new Text("V") {
-      fill = White
-      font = Font.font("Tahoma")
+      id = "table-light"
     }
     text.setMouseTransparent(true)
-    var dropdownBox = new Rectangle() {
+    var dropdownBox = new Rectangle {
       width = 100
       height = 50
-      fill = Grey
+      id = "button-default"
       onMouseClicked = (me: MouseEvent) => {
         if (expanded) {
-          border.bottom = new Rectangle()
-          fill = Grey
+          border.bottom = new Rectangle
+          id = "button-default"
           text.rotate = 0
-          text.fill = White
           expanded = false
         } else {
           border.bottom = moreInfo
           expanded = true
-          fill = LightGrey
+          id = "button-default-highlight"
           text.rotate = 180
-          text.fill = Black
         }
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = LightGrey
-        text.fill = Black
+        id = "button-default-highlight"
       }
       onMouseExited = (me: MouseEvent) => {
         if (expanded) {
-          fill = LightGrey
-          text.fill = Black
+          id = "button-default-highlight"
         } else {
-          fill = Grey
-          text.fill = White
+          id = "button-default"
         }
-
       }
     }
 
@@ -117,31 +108,31 @@ case class DeliveryBar(purchaseOrder: PurchaseOrder) extends BorderPane {
   /**
    *  Creates a box in the bar
    */
-  def box(setWidth: Int, colour: Color): Rectangle = {
-    new Rectangle() {
+  def field(setWidth: Int, setID: String, setTextID: String, setText: String): StackPane = {
+    var back = new Rectangle {
       width = setWidth
       height = 50
-      fill = colour
+      id = setID
     }
+    var text = new Text(setText) {
+      id = setTextID
+    }
+    var stack = new StackPane
+    stack.children.addAll(back, text)
+    stack
   }
 
   /**
    * Creates the main bar
    */
   def deliveryInfo(): HBox = {
-    var deliveryBox = new HBox()
-    var expectedTitle = new StackPane()
-    var expected = new StackPane()
-    var idTitle = new StackPane()
-    var id = new StackPane()
-    var employeeTitle = new StackPane()
-    var employee = new StackPane()
-    expectedTitle.children.addAll(box(100, LightGrey), new Text("Date expected:"))
-    expected.children.addAll(box(100, White), new Text(purchaseOrder.dateExpected.getValue.toString))
-    idTitle.children.addAll(box(100, LightGrey), new Text("Order ID:"))
-    id.children.addAll(box(100, White), new Text(purchaseOrder.idPurchaseOrder.getValue.toString))
-    employeeTitle.children.addAll(box(100, LightGrey), new Text("Assignee:"))
-    employee.children.addAll(box(100, White), new Text(purchaseOrder.idEmployee.getValue.toString))
+    val deliveryBox = new HBox()
+    val expectedTitle = field(100, "table-title", "table-dark", "Expected:")
+    val expected = field(100, "table-field", "table-dark", purchaseOrder.dateExpected.getValue.toString)
+    val idTitle = field(100, "table-title", "table-dark", "Order ID:")
+    val id = field(100, "table-field", "table-dark", purchaseOrder.idPurchaseOrder.getValue.toString)
+    val employeeTitle = field(100, "table-title", "table-dark", "Assignee:")
+    val employee = field(100, "table-field", "table-dark", purchaseOrder.idEmployee.getValue.toString)
     deliveryBox.children.addAll(idTitle, id, expectedTitle, expected, employeeTitle, employee)
     deliveryBox
   }
@@ -153,20 +144,15 @@ case class DeliveryBar(purchaseOrder: PurchaseOrder) extends BorderPane {
     var infoPane = new VBox()
     def lineInfo(i: Int): Unit = {
       if (i < lineList.size) {
-        var deliveryBox = new HBox()
-        var idTitle = new StackPane()
-        var id = new StackPane()
-        var quantityTitle = new StackPane()
-        var quantity = new StackPane()
-        var quantityDTitle = new StackPane()
-        var quantityD = new StackPane()
-        idTitle.children.addAll(box(100, LightGrey), new Text("Item ID:"))
-        id.children.addAll(box(100, White), new Text(lineList(i).idItem.getValue.toString()))
-        quantityTitle.children.addAll(box(100, LightGrey), new Text("Quantity:"))
-        quantity.children.addAll(box(100, White), new Text(lineList(i).quantity.getValue.toString()))
-        quantityDTitle.children.addAll(box(100, LightGrey), new Text("Damaged:"))
-        quantityD.children.addAll(box(100, White), new Text(lineList(i).quantityDamaged.getValue.toString()))
-        deliveryBox.children.addAll(box(100, WhiteSmoke), idTitle, id, quantityTitle, quantity, quantityDTitle, quantityD)
+        val deliveryBox = new HBox()
+        val idTitle = field(100, "table-title", "table-dark", "Item ID:")
+        val id = field(100, "table-field", "table-dark", lineList(i).idItem.getValue.toString)
+        val quantityTitle = field(100, "table-title", "table-dark", "Quantity:")
+        val quantity = field(100, "table-field", "table-dark", lineList(i).quantity.getValue.toString)
+        val quantityDTitle = field(100, "table-title", "table-dark", "Damaged:")
+        val quantityD = field(100, "table-field", "table-dark", lineList(i).quantityDamaged.getValue.toString)
+        val empty = field(100, "table-field", "table-dark", "")
+        deliveryBox.children.addAll(empty, idTitle, id, quantityTitle, quantity, quantityDTitle, quantityD)
         infoPane.children.add(deliveryBox)
         lineInfo(i + (1))
       }

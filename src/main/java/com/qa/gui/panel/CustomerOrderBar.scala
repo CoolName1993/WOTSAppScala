@@ -81,14 +81,12 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
           border.bottom = new Rectangle
           id = "button-default"
           text.rotate = 0
-          text.id = "table-light"
           expanded = false
         } else {
           border.bottom = moreInfo
           expanded = true
           id = "button-default-highlight"
           text.rotate = 180
-          text.id = "table-dark"
         }
       }
       onMouseEntered = (me: MouseEvent) => {
@@ -97,12 +95,9 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
       onMouseExited = (me: MouseEvent) => {
         if (expanded) {
           id = "button-default-highlight"
-          text.id = "table-dark"
         } else {
           id = "button-default"
-          text.id = "table-light"
         }
-
       }
     }
 
@@ -124,7 +119,7 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
       id = setTextID
     }
     var stack = new StackPane
-    stack.children.addAll(back,text)
+    stack.children.addAll(back, text)
     stack
   }
 
@@ -133,12 +128,12 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
    */
   def customerOrderInfo: HBox = {
     var deliveryBox = new HBox
-    var expectedTitle = field(100, "table-title","table-dark","Date created:")
-    var expected = field(100, "table-field","table-dark",customerOrder.datePlaced.getValue.toString)
-    var idTitle = field(100, "table-title","table-dark","ID:")
-    var id = field(100, "table-field","table-dark",customerOrder.idCustomerOrder.getValue.toString)
-    var employeeTitle = field(100, "table-title","table-dark","Assignee:")
-    var employee = field(100, "table-field","table-dark",customerOrder.idEmployee.getValue.toString)
+    var expectedTitle = field(100, "table-title", "table-dark", "Created:")
+    var expected = field(100, "table-field", "table-dark", customerOrder.datePlaced.getValue.toString)
+    var idTitle = field(100, "table-title", "table-dark", "Order ID:")
+    var id = field(100, "table-field", "table-dark", customerOrder.idCustomerOrder.getValue.toString)
+    var employeeTitle = field(100, "table-title", "table-dark", "Assignee:")
+    var employee = field(100, "table-field", "table-dark", customerOrder.idEmployee.getValue.toString)
     deliveryBox.children.addAll(idTitle, id, expectedTitle, expected, employeeTitle, employee)
     deliveryBox
   }
@@ -153,13 +148,13 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
       if (i < lineList.size) {
         val currentItem = QueryLoader.searchItem(new Item(lineList(i).idItem.getValue, null, null, null))
         var customerBox = new HBox
-        var idTitle = field(100, "table-title","table-dark","ID:")
-        var id = field(100, "table-field","table-dark",lineList(i).idItem.getValue.toString)
-        var itemNameTitle = field(100, "table-title","table-dark","Item name:")
-        var itemName = field(200, "table-field","table-dark",currentItem.itemName.getValue.toString)
-        var quantityTitle = field(100, "table-title","table-dark","Quantity:")
-        var quantity = field(100, "table-field","table-dark",lineList(i).quantity.getValue.toString)
-        var empty = field(100, "table-field","table-light","")
+        var idTitle = field(100, "table-title", "table-dark", "Item ID:")
+        var id = field(100, "table-field", "table-dark", lineList(i).idItem.getValue.toString)
+        var itemNameTitle = field(100, "table-title", "table-dark", "Item name:")
+        var itemName = field(200, "table-field", "table-dark", currentItem.itemName.getValue.toString)
+        var quantityTitle = field(100, "table-title", "table-dark", "Quantity:")
+        var quantity = field(100, "table-field", "table-dark", lineList(i).quantity.getValue.toString)
+        var empty = field(100, "table-field", "table-light", "")
         customerBox.children.addAll(empty, idTitle, id, itemNameTitle, itemName, quantityTitle, quantity)
         infoPane.children.add(customerBox)
         println(i)
