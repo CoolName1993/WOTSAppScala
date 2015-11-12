@@ -52,6 +52,7 @@ class LoginWindow(stage: PrimaryStage) {
 
     // Create the scene
     val scene = new Scene(border, 300, 275)
+    scene.stylesheets = List(getClass.getResource("/stylesheet.css").toExternalForm())
 
     // Create a welcome label
     val scenetitle = new Text("Welcome")
@@ -76,25 +77,22 @@ class LoginWindow(stage: PrimaryStage) {
 
     // Set up the log in button
     def login(): StackPane = {
-      val good = Color.rgb(82, 167, 7)
-      val goodHighlight = Color.rgb(120, 214, 36)
       var close = new StackPane()
       var text = new Text("Log in") {
-        fill = White
-        font = Font.font("Tahoma", 16)
+        id = "light-colour"
       }
       var rect = new Rectangle() {
-        width = 60
-        height = 40
-        fill = good
+        width = 80
+        height = 50
+        id = "button-good"
         onMouseClicked = (me: MouseEvent) => {
           new LoginController(stage, userTextField.text.value, pwBox.getText)
         }
         onMouseEntered = (me: MouseEvent) => {
-          fill = goodHighlight
+          id = "button-good-highlight"
         }
         onMouseExited = (me: MouseEvent) => {
-          fill = good
+          id = "button-good"
         }
       }
       text.setMouseTransparent(true)

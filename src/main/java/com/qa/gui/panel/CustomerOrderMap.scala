@@ -19,6 +19,7 @@ case class CustomerOrderMap(map: Array[Array[Int]]) extends GridPane {
       case 1 => colour = Color.rgb(107, 120, 115)
       case 2 => colour = Color.rgb(116, 97, 96)
       case 3 => colour = Blue
+      case 4 => colour = Yellow
       case _ => colour = White
     }
     var tile = new Rectangle() {

@@ -1,0 +1,106 @@
+/*
+    Document: stylesheet
+*/
+
+/* Font */
+.Text {
+    -fx-font-family: "Tahoma";
+}
+
+#light-colour {
+    -fx-fill: #FFFFFF;
+    -fx-font-size: 14pt;
+}
+
+#dark-colour {
+    -fx-fill: #444444;
+    -fx-font-size: 14pt;
+}
+
+#table-dark {
+    -fx-fill: #444444;
+    -fx-font-size: 12pt;
+}
+
+#table-light {
+    -fx-fill: #DDDDDD;
+    -fx-font-size: 12pt;
+}
+
+/* Rectangles */
+/* Colours used throughout the application */
+#title {
+    -fx-fill: #3E96CA;
+}
+
+#button-default {
+    -fx-fill: #0A77B8;
+}
+
+#button-default-highlight {
+    -fx-fill: #2B87BE;
+}
+
+#button-good {
+    -fx-fill: #0BDA00;
+}
+
+#button-good-highlight {
+    -fx-fill: #31DD28;
+}
+
+#button-bad {
+    -fx-fill: #FD0006;
+}
+
+#button-bad-highlight {
+    -fx-fill: #FD2E33;
+}
+
+#map-floor {
+    -fx-fill: #DDDDDD;
+}
+
+#map-floor-highlight {
+    -fx-fill: #FFFFFF;
+}
+
+#map-wall {
+    -fx-fill: #444444;
+}
+
+#map-wall-highlight {
+    -fx-fill: #777777;
+}
+
+#map-path-floor {
+    -fx-fill: #065C8F;
+}
+
+#map-path-floor-highlight {
+    -fx-fill: #0A77B8;
+}
+
+#map-path-wall-open {
+    -fx-fill: #E07B00;
+}
+
+#map-path-wall-open-highlight {
+    -fx-fill: #FF8C00;
+}
+
+#map-path-wall-visited {
+    -fx-fill: #09B600;
+}
+
+#map-path-wall-visited-highlight {
+    -fx-fill: #0BDA00;
+}
+
+#table-title {
+    -fx-fill: #AAAAAA
+}
+
+#table-field {
+    -fx-fill: #DDDDDD
+}

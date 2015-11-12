@@ -137,9 +137,8 @@ object SQLConnector {
           }
           else
           {
-            println("SUCCESS")
             output = " WHERE " + columns(j).getColumnName + "='" + columns(j).getValue + "'"
-            createPairs(j)
+            createPairs(j +(1))
           }
         }
       }

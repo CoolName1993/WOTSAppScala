@@ -3,6 +3,7 @@ package com.qa.gui.pathfinder
 import scala.collection.mutable.MutableList
 import scala.collection.mutable.ListBuffer
 import scala.collection.mutable.PriorityQueue
+import com.qa.data.entity.Location
 
 /**
  * @author cboucher
@@ -10,7 +11,7 @@ import scala.collection.mutable.PriorityQueue
 class Pathfinder {
 
   val vertexList = new ListBuffer[Vertex]
-  
+
   val map = Array(
     Array(2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2),
     Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
@@ -23,7 +24,18 @@ class Pathfinder {
     Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
     Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
     Array(2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2))
-  var outputMap = map
+  var outputMap = Array(
+    Array(2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2),
+    Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+    Array(2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2))
   var vMap = vertexMap
 
   // Fill the vertex map with new vertexes
@@ -57,21 +69,16 @@ class Pathfinder {
           var edgeList = new MutableList[Edge]
 
           // If the map tile is not a wall
-          if (map(x)(y) != 1) {
-
-            // If the map tile is not on the left edge
-            if (x != 0) {
-
-              // If the map tile to the left is not a wall
-              if (map(x - (1))(y) != 1) {
-
-                // Add a new edge to the edge list
-                val outputEdge = new Edge(vMap(x - 1)(y), 1)
-                edgeList.+=(outputEdge)
-              }
-            }
+          if (map(x)(y) == 0) {
 
             // If the map tile is not on the top edge
+            if (x != 0) {
+              // Add a new edge to the edge list
+              val outputEdge = new Edge(vMap(x - 1)(y), 1)
+              edgeList.+=(outputEdge)
+            }
+
+            // If the map tile is not on the left edge
             if (y != 0) {
 
               // If the map tile above is not a wall
@@ -83,8 +90,30 @@ class Pathfinder {
               }
             }
 
+            // If the map tile is under the top row and now connected to entrance
+            if (x == 1 && y != 5) {
+              // Add a new edge to the edge list
+              val outputEdge = new Edge(vMap(x - 1)(y), 1)
+              edgeList.+=(outputEdge)
+            } // If the map tile is above the bottom row
+            if (x == map.length - 2) {
+              //Add a new edge to the edge list
+              val outputEdge = new Edge(vMap(x + 1)(y), 1)
+              edgeList.+=(outputEdge)
+            } // If the map tile is greater than 0 and not on the top row
+            if (y < map(x).length - 1 && x != 0) {
+              // Add a new edge to the left
+              val outputEdge = new Edge(vMap(x)(y - 1), 1)
+              edgeList.+=(outputEdge)
+            }
+            if (y == map(x).length - 2) {
+              // Add a new edge to the right
+              val outputEdge = new Edge(vMap(x)(y + 1), 1)
+              edgeList.+=(outputEdge)
+            }
+
             // If the map tile is not on the right edge
-            if (x < 11) {
+            if (x < map.length - 1) {
 
               // If the map tile to the right is not a wall
               if (map(x + 1)(y) != 1) {
@@ -96,7 +125,7 @@ class Pathfinder {
             }
 
             // If the map tile is not on the bottom edge
-            if (y < map(0).length) {
+            if (y < map(0).length - 1) {
 
               // If the map tile below is not a wall
               if (map(x)(y + 1) != 1) {
@@ -105,6 +134,29 @@ class Pathfinder {
                 val outputEdge = new Edge(vMap(x)(y + 1), 1)
                 edgeList.+=(outputEdge)
               }
+            }
+          } // Add nodes to access shelves
+          else if (map(x)(y) == 1) {
+            // Shelf accessed from below
+            if (x == 0) {
+              val outputEdge = new Edge(vMap(x + 1)(y), 1)
+              //              println("X: " + x + " Y: " + y + " below added")
+              edgeList.+=(outputEdge)
+            } // Shelf accessed from above
+            if (x == map.length - 1) {
+              val outputEdge = new Edge(vMap(x - 1)(y), 1)
+              //              println("X: " + x + " Y: " + y + " above added")
+              edgeList.+=(outputEdge)
+            } //Shelf accessed from right
+            if (y < map.length - 1 && x != 0 && x != map.length - 1) {
+              val outputEdge = new Edge(vMap(x)(y + 1), 1)
+              //              println("X: " + x + " Y: " + y + " right added")
+              edgeList.+=(outputEdge)
+            } // Shelf accessed from left
+            if (y == map.length - 1 && x != 0 && x != map.length - 1) {
+              val outputEdge = new Edge(vMap(x)(y - 1), 1)
+              //              println("X: " + x + " Y: " + y + " left added")
+              edgeList.+=(outputEdge)
             }
           }
 
@@ -140,25 +192,30 @@ class Pathfinder {
   /**
    * Performs the pathfinder algorithm on the vertex list and returns a map with the paths on it.
    */
-  def pathfind(input: Array[ListBuffer[Int]]): Array[Array[Int]] = {
+  def pathfind(input: Array[Array[Location]]): Array[Array[Int]] = {
 
     // Add a location to the vertex list
-    def loop(n: Int) {
-      if (n < input.length) {
-        // Add a vertex to the list
-        println("hello")
-        println(input(n)(0))
-        println(input(n)(1))
-        vertexList.+=(vMap(input(n)(0))(input(n)(1)))
-        loop(n + (1))
+    def loopX(x: Int) {
+      if (x < input.length) {
+        def loopY(y: Int) {
+          if (y < input(x).length) {
+            // Add a vertex to the list
+            println("hello") //
+            vertexList += (vMap(input(x)(y).row.getValue.asInstanceOf[Int])(input(x)(y).col.getValue.asInstanceOf[Int]))
+            loopY(x + (1))
+          }
+        }
+        loopY(0)
+        loopX(x + (1))
       }
     }
-    loop(0)
 
     /**
      *  Find the nearest vertex and call recursively
      */
     def pathFind(source: Vertex): Unit = {
+
+      println(source.name)
 
       // Reset values
       var minDistance = Double.PositiveInfinity
@@ -170,18 +227,21 @@ class Pathfinder {
       computePaths(source)
 
       def loop(i: Int) {
-        // If the vertex is not the current vertex
-        if (!vertexList(i).equals(source)) {
-          System.out.println("Distance to " + vertexList(i) + ": " + vertexList(i).minDistance)
+        if (i < vertexList.length) {
+          // If the vertex is not the current vertex
+          if (!vertexList(i).equals(source)) {
+            System.out.println("Distance to " + vertexList(i) + ": " + vertexList(i).minDistance)
 
-          // Check the distance is closer than the closest
-          if (vertexList(i).minDistance < minDistance) {
+            // Check the distance is closer than the closest
+            if (vertexList(i).minDistance < minDistance) {
 
-            // Set the vertex to be the closest
-            minDistance = vertexList(i).minDistance
-            nextVertex = vertexList(i)
-            nextVertexName = vertexList(i).name
+              // Set the vertex to be the closest
+              minDistance = vertexList(i).minDistance
+              nextVertex = vertexList(i)
+              nextVertexName = vertexList(i).name
+            }
           }
+          loop(i + (1))
         }
       }
       // For each vertex in the vertex list
@@ -189,7 +249,7 @@ class Pathfinder {
 
       // Create a path of coordinates from the path finder
       var path = getShortestPathTo(nextVertex)
-
+      println(path.size)
       // Draw the path on the warehouse map
       addPath(0, path)
 
@@ -255,8 +315,7 @@ class Pathfinder {
         if (!vertexQueue.isEmpty) {
 
           // Poll the vertex queue
-          val u = vertexQueue.head
-          vertexQueue.dequeue
+          var u = vertexQueue.dequeue
 
           /**
            *  For each edge of the polled vertex
@@ -299,9 +358,11 @@ class Pathfinder {
               compare(i + (1))
             }
           }
+          compare(0)
           whileLoop
         }
       }
+      whileLoop
     }
 
     /**
@@ -360,16 +421,20 @@ class Pathfinder {
       if (i < path.size) {
 
         // Change the number on the map to 3 if its on the floor
-        if (outputMap(path(i)(0))(path(i)(1)) == 0) {
-          outputMap(path(i)(0))(path(i)(1)) = 3
-        } else {
-          // Change the number on the map to 4 if its on the shelf
-          outputMap(path(i)(0))(path(i)(1)) = 4
+        outputMap(path(i)(0))(path(i)(1)) match {
+          case 0 => outputMap(path(i)(0))(path(i)(1)) = 3
+          case 1 => outputMap(path(i)(0))(path(i)(1)) = 4
+          case 2 => outputMap(path(i)(0))(path(i)(1)) = 2
+          case 3 => outputMap(path(i)(0))(path(i)(1)) = 3
+          case 4 => outputMap(path(i)(0))(path(i)(1)) = 4
+          case _ => outputMap(path(i)(0))(path(i)(1)) = 0
         }
         addPath(i + (1), path)
       }
     }
-
+    fillMap
+    vertexList += (vMap(0)(5))
+    loopX(0)
     pathFind(vertexList(0))
     outputMap
   }

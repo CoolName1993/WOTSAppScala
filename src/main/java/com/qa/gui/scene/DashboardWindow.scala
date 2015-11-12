@@ -47,32 +47,26 @@ import com.qa.application.Session
 class DashboardWindow(stage: PrimaryStage) {
   val HEIGHT = 768
   val WIDTH = 1024
-  val titleColour = Color.rgb(99, 206, 168)
-  val buttonNormal = Color.rgb(6, 125, 83)
-  val buttonHighlight = Color.rgb(27, 161, 114)
   stage.setTitle("Warehouse Order Tracking Application")
-
-  //http://paletton.com/palette.php?uid=3010h0kqzu2gDIgkbyGu-npwFhv
 
   def createButton(title: String, panel: () => Unit): StackPane = {
     var stack = new StackPane()
     var button = new Rectangle() {
       width = 200
       height = 50
-      fill = buttonNormal
+      id = "button-default"
       onMouseClicked = (me: MouseEvent) => {
         panel()
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = buttonHighlight
+        id = "button-default-highlight"
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = buttonNormal
+        id = "button-default"
       }
     }
     var text = new Text(title) {
-      fill = White
-      font = Font.font("Tahoma", 16)
+      id = "light-colour"
     }
     text.setMouseTransparent(true)
     stack.children.addAll(button, text)
@@ -84,24 +78,23 @@ class DashboardWindow(stage: PrimaryStage) {
     var back = new Rectangle() {
       width = 200
       height = 100
-      fill = titleColour
+      id = "title"
     }
     var text = new Text(title) {
-      fill = Black
-      font = Font.font("Tahoma", 16)
+      id = "dark-colour"
     }
     stack.children.addAll(back, text)
     stack
   }
 
-  def createScene(): Scene = {
-
+  def createScene(): Scene = {    
     var border = new BorderPane()
     var flow = new FlowPane()
     flow.setPrefWrapLength(150)
 
     // Create the scene
     val scene = new Scene(border, WIDTH, HEIGHT)
+    scene.stylesheets = List(getClass.getResource("/stylesheet.css").toExternalForm())
 
     def setDeliveries() {
       border.center = new DeliveryPanel()

@@ -20,51 +20,43 @@ import com.qa.application.Session
  */
 case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
 
-  // These will be replaced with CSS at some point in the future hopefully
-  val good = Color.rgb(82, 167, 7)
-  val goodHighlight = Color.rgb(120, 214, 36)
-  val bad = Color.rgb(186, 13, 8)
-  val badHighlight = Color.rgb(239, 46, 41)
-  //
-
   var expanded = false
-  var current = bad
+  var current = "button-bad"
 
   /**
    * Creates the status button which can be toggled on and off
    */
   def status: StackPane = {
     var text = new Text("Inactive") {
-      fill = White
-      font = Font.font("Tahoma")
+      id = "table-light"
     }
     text.setMouseTransparent(true)
     var statusBox = new Rectangle {
       width = 100
       height = 50
-      fill = current
+      id = current
       onMouseClicked = (me: MouseEvent) => {
-        if (current == good) {
-          current = bad
-          fill = badHighlight
+        if (current == "button-good") {
+          current = "button-bad"
+          id = "button-bad-highlight"
           text.text = "Inactive"
           Session.currentCustomerOrder = null
         } else {
           Session.currentCustomerOrder = customerOrder
-          current = good
-          fill = goodHighlight
+          current = "button-good"
+          id = "button-good-highlight"
           text.text = "Active"
         }
       }
       onMouseEntered = (me: MouseEvent) => {
-        if (current == good) {
-          fill = goodHighlight
+        if (current == "button-good") {
+          id = "button-good-highlight"
         } else {
-          fill = badHighlight
+          id = "button-bad-highlight"
         }
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = current
+        id = current
       }
     }
     var stack = new StackPane()
@@ -77,40 +69,38 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
    */
   def dropdown(border: BorderPane): StackPane = {
     var text = new Text("V") {
-      fill = White
-      font = Font.font("Tahoma")
+      id = "table-light"
     }
     text.setMouseTransparent(true)
     var dropdownBox = new Rectangle {
       width = 100
       height = 50
-      fill = Grey
+      id = "button-default"
       onMouseClicked = (me: MouseEvent) => {
         if (expanded) {
           border.bottom = new Rectangle
-          fill = Grey
+          id = "button-default"
           text.rotate = 0
-          text.fill = White
+          text.id = "table-light"
           expanded = false
         } else {
           border.bottom = moreInfo
           expanded = true
-          fill = LightGrey
+          id = "button-default-highlight"
           text.rotate = 180
-          text.fill = Black
+          text.id = "table-dark"
         }
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = LightGrey
-        text.fill = Black
+        id = "button-default-highlight"
       }
       onMouseExited = (me: MouseEvent) => {
         if (expanded) {
-          fill = LightGrey
-          text.fill = Black
+          id = "button-default-highlight"
+          text.id = "table-dark"
         } else {
-          fill = Grey
-          text.fill = White
+          id = "button-default"
+          text.id = "table-light"
         }
 
       }
@@ -124,12 +114,18 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
   /**
    *  Creates a box in the bar
    */
-  def box(setWidth: Int, colour: Color): Rectangle = {
-    new Rectangle {
+  def field(setWidth: Int, setID: String, setTextID: String, setText: String): StackPane = {
+    var back = new Rectangle {
       width = setWidth
       height = 50
-      fill = colour
+      id = setID
     }
+    var text = new Text(setText) {
+      id = setTextID
+    }
+    var stack = new StackPane
+    stack.children.addAll(back,text)
+    stack
   }
 
   /**
@@ -137,18 +133,12 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
    */
   def customerOrderInfo: HBox = {
     var deliveryBox = new HBox
-    var expectedTitle = new StackPane
-    var expected = new StackPane
-    var idTitle = new StackPane
-    var id = new StackPane
-    var employeeTitle = new StackPane
-    var employee = new StackPane
-    expectedTitle.children.addAll(box(100, LightGrey), new Text("Date created:"))
-    expected.children.addAll(box(100, White), new Text(customerOrder.datePlaced.getValue.toString))
-    idTitle.children.addAll(box(100, LightGrey), new Text("ID:")) //change
-    id.children.addAll(box(100, White), new Text(customerOrder.idCustomerOrder.getValue.toString)) //change
-    employeeTitle.children.addAll(box(100, LightGrey), new Text("Assignee:")) //change
-    employee.children.addAll(box(100, White), new Text(customerOrder.idEmployee.getValue.toString)) //change
+    var expectedTitle = field(100, "table-title","table-dark","Date created:")
+    var expected = field(100, "table-field","table-dark",customerOrder.datePlaced.getValue.toString)
+    var idTitle = field(100, "table-title","table-dark","ID:")
+    var id = field(100, "table-field","table-dark",customerOrder.idCustomerOrder.getValue.toString)
+    var employeeTitle = field(100, "table-title","table-dark","Assignee:")
+    var employee = field(100, "table-field","table-dark",customerOrder.idEmployee.getValue.toString)
     deliveryBox.children.addAll(idTitle, id, expectedTitle, expected, employeeTitle, employee)
     deliveryBox
   }
@@ -163,19 +153,14 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
       if (i < lineList.size) {
         val currentItem = QueryLoader.searchItem(new Item(lineList(i).idItem.getValue, null, null, null))
         var customerBox = new HBox
-        var idTitle = new StackPane
-        var id = new StackPane
-        var itemNameTitle = new StackPane
-        var itemName = new StackPane
-        var quantityTitle = new StackPane
-        var quantity = new StackPane
-        idTitle.children.addAll(box(100, LightGrey), new Text("ID:")) //change
-        id.children.addAll(box(100, White), new Text(lineList(i).idItem.getValue.toString)) //change
-        itemNameTitle.children.addAll(box(100, LightGrey), new Text("Item name:")) //change
-        itemName.children.addAll(box(200, White), new Text(currentItem.itemName.getValue.toString)) //change
-        quantityTitle.children.addAll(box(100, LightGrey), new Text("Quantity:")) //change
-        quantity.children.addAll(box(100, White), new Text(lineList(i).quantity.getValue.toString)) //change
-        customerBox.children.addAll(box(100, WhiteSmoke), idTitle, id, itemNameTitle, itemName, quantityTitle, quantity)
+        var idTitle = field(100, "table-title","table-dark","ID:")
+        var id = field(100, "table-field","table-dark",lineList(i).idItem.getValue.toString)
+        var itemNameTitle = field(100, "table-title","table-dark","Item name:")
+        var itemName = field(200, "table-field","table-dark",currentItem.itemName.getValue.toString)
+        var quantityTitle = field(100, "table-title","table-dark","Quantity:")
+        var quantity = field(100, "table-field","table-dark",lineList(i).quantity.getValue.toString)
+        var empty = field(100, "table-field","table-light","")
+        customerBox.children.addAll(empty, idTitle, id, itemNameTitle, itemName, quantityTitle, quantity)
         infoPane.children.add(customerBox)
         println(i)
         lineInfo(i + (1))

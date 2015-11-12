@@ -31,7 +31,7 @@ object QueryLoader {
 
   // Searches the database for matching customer orders
   def searchCustomerOrder(selectedCustomerOrder: CustomerOrder): Array[CustomerOrder] = {
-    val searchOrder = new CustomerOrder(selectedCustomerOrder.idCustomerOrder_, null, null, null, null, null,null,null)
+    val searchOrder = new CustomerOrder(selectedCustomerOrder.idCustomerOrder_, null, null, null, null, null, null, null)
     val searchValues = Array(selectedCustomerOrder.idCustomerOrder, selectedCustomerOrder.datePlaced, selectedCustomerOrder.dateShipped, selectedCustomerOrder.isPaid, selectedCustomerOrder.idAddress, selectedCustomerOrder.idCustomerOrderStatus, selectedCustomerOrder.idEmployee, selectedCustomerOrder.idCustomer)
     val currentOrders = SQLConnector.read(searchOrder.tableName, searchValues)
     println(currentOrders.size)
@@ -49,7 +49,7 @@ object QueryLoader {
       null
     }
   }
-  
+
   // Searches the database for all lines in the current customer order
   def searchCustomerOrderLine(selectedCustomerOrder: CustomerOrder): Array[CustomerOrderLine] = {
     val searchOrderLine = new CustomerOrderLine(null, selectedCustomerOrder.idCustomerOrder_, null)
@@ -60,7 +60,7 @@ object QueryLoader {
       def loop(i: Int) {
         if (i < currentOrderLines.size) {
           output(i) = EntityConvertor.convertToCustomerOrderLine(currentOrderLines(i))
-          loop(i +(1))
+          loop(i + (1))
         }
       }
       loop(0)
@@ -69,7 +69,7 @@ object QueryLoader {
       null
     }
   }
-  
+
   // Searches the database for all lines in the current purchase order
   def searchPurchaseOrderLine(selectedPurchaseOrder: PurchaseOrder): Array[PurchaseOrderLine] = {
     val searchOrderLine = new PurchaseOrderLine(selectedPurchaseOrder.idPurchaseOrder_.asInstanceOf[Int], null, null, null)
@@ -80,7 +80,7 @@ object QueryLoader {
       def loop(i: Int) {
         if (i < currentOrderLines.size) {
           output(i) = EntityConvertor.convertToPurchaseOrderLine(currentOrderLines(i))
-          loop(i +(1))
+          loop(i + (1))
         }
       }
       loop(0)
@@ -92,7 +92,8 @@ object QueryLoader {
 
   // Searches the database for all locations associated with an item
   def searchLocation(selectedItem: Item): Array[Location] = {
-    val searchLocation = new Location(null,selectedItem.idItem_, null, null, null)
+    println("CURRENT ITEM: " + selectedItem.idItem.getValue)
+    val searchLocation = new Location(null, selectedItem.idItem_, null, null, null)
     val searchValues = Array(searchLocation.idLocation, searchLocation.idItem, searchLocation.row, searchLocation.col, searchLocation.quantity)
     val currentLocations = SQLConnector.read(searchLocation.tableName, searchValues)
     if (currentLocations.size > 0) {
@@ -100,6 +101,7 @@ object QueryLoader {
       def loop(i: Int) {
         if (i < currentLocations.size) {
           output(i) = EntityConvertor.convertToLocation(currentLocations(i))
+          loop(i + (1))
         }
       }
       loop(0)
@@ -108,7 +110,7 @@ object QueryLoader {
       null
     }
   }
-  
+
   // Searches the database for a matching user
   def searchUser(selectedUser: User): User = {
     val searchUser = new User(selectedUser.idUser_, selectedUser.password_, null, null, null, 1)
@@ -121,7 +123,7 @@ object QueryLoader {
       null
     }
   }
-  
+
   // Searches the database for a matching item
   def searchItem(selectedItem: Item): Item = {
     val searchValues = Array(selectedItem.idItem)
@@ -133,5 +135,5 @@ object QueryLoader {
       null
     }
   }
-  
+
 }

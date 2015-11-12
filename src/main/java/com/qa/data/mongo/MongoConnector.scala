@@ -52,7 +52,6 @@ object MongoConnector {
       var output = MongoDBObject.empty
       def addField(i: Int) {
         if (i < fields.size) {
-          println(fields(i).getFieldName + "," + fields(i).getValue)
           output.put(fields(i).getFieldName, fields(i).getValue)
           addField(i +(1))
         }
