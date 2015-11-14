@@ -10,7 +10,7 @@ object QueryLoader {
 
   // Searches the database for matching purchase orders
   def searchPurchaseOrder(selectedPurchaseOrder: PurchaseOrder): Array[PurchaseOrder] = {
-    val searchOrder = new PurchaseOrder(selectedPurchaseOrder.idPurchaseOrder_, null, null, null, null, null)
+    val searchOrder = new PurchaseOrder(selectedPurchaseOrder.idPurchaseOrder.getValue, null, null, null, null, null)
     val searchValues = Array(searchOrder.idPurchaseOrder, searchOrder.datePlaced, searchOrder.dateExpected, searchOrder.idPurchaseOrderStatus, searchOrder.idSupplier, searchOrder.idEmployee)
     val currentOrders = SQLConnector.read(searchOrder.tableName, searchValues)
     println(currentOrders.size)
@@ -31,7 +31,7 @@ object QueryLoader {
 
   // Searches the database for matching customer orders
   def searchCustomerOrder(selectedCustomerOrder: CustomerOrder): Array[CustomerOrder] = {
-    val searchOrder = new CustomerOrder(selectedCustomerOrder.idCustomerOrder_, null, null, null, null, null, null, null)
+    val searchOrder = new CustomerOrder(selectedCustomerOrder.idCustomerOrder.getValue, null, null, null, null, null, null, null)
     val searchValues = Array(selectedCustomerOrder.idCustomerOrder, selectedCustomerOrder.datePlaced, selectedCustomerOrder.dateShipped, selectedCustomerOrder.isPaid, selectedCustomerOrder.idAddress, selectedCustomerOrder.idCustomerOrderStatus, selectedCustomerOrder.idEmployee, selectedCustomerOrder.idCustomer)
     val currentOrders = SQLConnector.read(searchOrder.tableName, searchValues)
     println(currentOrders.size)
@@ -52,7 +52,7 @@ object QueryLoader {
 
   // Searches the database for all lines in the current customer order
   def searchCustomerOrderLine(selectedCustomerOrder: CustomerOrder): Array[CustomerOrderLine] = {
-    val searchOrderLine = new CustomerOrderLine(null, selectedCustomerOrder.idCustomerOrder_, null)
+    val searchOrderLine = new CustomerOrderLine(null, selectedCustomerOrder.idCustomerOrder.getValue, null)
     val searchValues = Array(searchOrderLine.idItem, searchOrderLine.idCustomerOrder, searchOrderLine.quantity)
     val currentOrderLines = SQLConnector.read(searchOrderLine.tableName, searchValues)
     if (currentOrderLines.size > 0) {
@@ -72,7 +72,7 @@ object QueryLoader {
 
   // Searches the database for all lines in the current purchase order
   def searchPurchaseOrderLine(selectedPurchaseOrder: PurchaseOrder): Array[PurchaseOrderLine] = {
-    val searchOrderLine = new PurchaseOrderLine(selectedPurchaseOrder.idPurchaseOrder_.asInstanceOf[Int], null, null, null)
+    val searchOrderLine = new PurchaseOrderLine(selectedPurchaseOrder.idPurchaseOrder.getValue.asInstanceOf[Int], null, null, null)
     val searchValues = Array(searchOrderLine.idPurchaseOrder, searchOrderLine.idItem, searchOrderLine.quantity, searchOrderLine.quantityDamaged)
     val currentOrderLines = SQLConnector.read(searchOrderLine.tableName, searchValues)
     if (currentOrderLines.size > 0) {
@@ -93,7 +93,7 @@ object QueryLoader {
   // Searches the database for all locations associated with an item
   def searchLocation(selectedItem: Item): Array[Location] = {
     println("CURRENT ITEM: " + selectedItem.idItem.getValue)
-    val searchLocation = new Location(null, selectedItem.idItem_, null, null, null)
+    val searchLocation = new Location(null, selectedItem.idItem.getValue, null, null, null)
     val searchValues = Array(searchLocation.idLocation, searchLocation.idItem, searchLocation.row, searchLocation.col, searchLocation.quantity)
     val currentLocations = SQLConnector.read(searchLocation.tableName, searchValues)
     if (currentLocations.size > 0) {

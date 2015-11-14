@@ -10,7 +10,6 @@ import com.qa.data.entity.CustomerOrder
  */
 class CustomerOrderPanelController {
   def createTable(): VBox = {
-    CustomerOrder
     var table = new VBox
     val orders = QueryLoader.searchCustomerOrder(new CustomerOrder(null,null,null,null,null,null,null,null))
     def addRow(i: Int) {

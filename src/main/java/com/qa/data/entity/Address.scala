@@ -10,7 +10,7 @@ import com.qa.data.mongo.{ Entity, Field }
  * @param postcode_ The postcode in the address.
  * @author cboucher
  */
-case class Address(idAddress_ : Int, addressLines_ : Array[String], city_ : String, county_ : String, postcode_ : String) extends Entity {
+class Address(idAddress_ : Int, addressLines_ : Array[String], city_ : String, county_ : String, postcode_ : String) extends Entity {
   def getAddressLines(): Array[Field] = {
     var output = new Array[Field](addressLines_.size)
     def createLine(i: Int) {

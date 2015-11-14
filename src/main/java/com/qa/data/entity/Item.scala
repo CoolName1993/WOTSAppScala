@@ -11,7 +11,7 @@ import com.qa.data.mongo.{ Entity, Field }
  * @param isPorousware_ Whether the item has porousware.
  * @author cboucher
  */
-case class Item(idItem_ : Any, itemName_ : String, imageLocation_ : String, isPorousware_ : Any) extends Entity {
+class Item(idItem_ : Any, itemName_ : String, imageLocation_ : String, isPorousware_ : Any) extends Entity {
   val collectionName: String = "Item"
   val idItem = new Field("idItem", idItem_)
   val itemName = new Field("ItemName", itemName_)

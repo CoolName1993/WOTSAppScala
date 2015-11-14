@@ -4,7 +4,7 @@ import com.qa.data.sql.{ Entity, Column }
 /**
  * @author cboucher
  */
-case class Location(idLocation_ : Any, idItem_ : Any, row_ : Any, col_ : Any, quantity_ : Any) extends Entity {
+class Location(idLocation_ : Any, idItem_ : Any, row_ : Any, col_ : Any, quantity_ : Any) extends Entity {
   val tableName = "location"
   val idLocation = new Column("idLocation", idLocation_)
   val idItem = new Column("idItem", idItem_)

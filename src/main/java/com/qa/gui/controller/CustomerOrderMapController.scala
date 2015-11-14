@@ -13,7 +13,9 @@ import com.qa.gui.panel.CustomerOrderMap
  */
 class CustomerOrderMapController {
   def getCurrentMap: CustomerOrderMap = {
-    var map = Array(
+
+    // Create a default map
+    val map = Array(
       Array(2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2),
       Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
       Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
@@ -25,9 +27,12 @@ class CustomerOrderMapController {
       Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
       Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
       Array(2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2))
+
+    // If there is currently a customer order selected.  
     if (Session.currentCustomerOrder != null) {
-      var orderLines = QueryLoader.searchCustomerOrderLine(Session.currentCustomerOrder)
-      var locationList = new Array[Array[Location]](orderLines.size)
+      val orderLines = QueryLoader.searchCustomerOrderLine(Session.currentCustomerOrder)
+      val locationList = new Array[Array[Location]](orderLines.size)
+
       def loopItem(i: Int) {
         if (i < orderLines.size) {
           val item = QueryLoader.searchItem(new Item(orderLines(i).idItem.getValue, null, null, null))
@@ -37,7 +42,7 @@ class CustomerOrderMapController {
         }
       }
       loopItem(0)
-      map = new Pathfinder().pathfind(locationList)
+      new Pathfinder().execute(locationList, map)
       new CustomerOrderMap(map)
     }
     new CustomerOrderMap(map)

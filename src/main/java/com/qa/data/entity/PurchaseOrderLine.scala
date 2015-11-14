@@ -10,7 +10,7 @@ import com.qa.data.sql.{ Entity, Column }
  * @param quantityDamaged_ The quantity of the item that was damaged.
  * @author cboucher
  */
-case class PurchaseOrderLine(idPurchaseOrder_ : Int, idItem_ : Any, quantity_ : Any, quantityDamaged_ : Any) extends Entity {
+class PurchaseOrderLine(idPurchaseOrder_ : Int, idItem_ : Any, quantity_ : Any, quantityDamaged_ : Any) extends Entity {
   val tableName: String = "purchaseorderline"
   val idPurchaseOrder = new Column("idPurchaseOrder", idPurchaseOrder_)
   val idItem = new Column("idItem", idItem_)

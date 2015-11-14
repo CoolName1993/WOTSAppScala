@@ -9,7 +9,7 @@ import com.qa.data.sql.{ Entity, Column }
  * @param quantity_ The quantity of the item.
  * @author cboucher
  */
-case class CustomerOrderLine(idItem_ : Any, idCustomerOrder_ : Any, quantity_ : Any) extends Entity {
+class CustomerOrderLine(idItem_ : Any, idCustomerOrder_ : Any, quantity_ : Any) extends Entity {
   val tableName = "customerorderline"
   val idItem = new Column("idItem", idItem_)
   val idCustomerOrder = new Column("idCustomerOrder", idCustomerOrder_)

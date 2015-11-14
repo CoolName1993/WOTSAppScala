@@ -3,9 +3,10 @@ package com.qa.gui.pathfinder
 /**
  * @author cboucher
  */
-case class Vertex(name: String) extends Ordered[Vertex] {
+class Vertex(name_ : String) extends Ordered[Vertex] {
 
   // Global variables
+  val name = name_
   var adjacencies: Array[Edge] = _
   var minDistance = Double.PositiveInfinity
   var previous: Vertex = _
