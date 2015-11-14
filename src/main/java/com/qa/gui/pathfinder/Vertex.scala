@@ -5,7 +5,6 @@ package com.qa.gui.pathfinder
  */
 class Vertex(name_ : String) extends Ordered[Vertex] {
 
-  // Global variables
   val name = name_
   var adjacencies: Array[Edge] = _
   var minDistance = Double.PositiveInfinity
@@ -14,15 +13,22 @@ class Vertex(name_ : String) extends Ordered[Vertex] {
   var yPos: Int = 0
   var visited = false
 
-  // Return the vertex name
+  /**
+   *  Return the vertex name.
+   */
   override def toString() = name
 
+  /**
+   * Compare the vertex to another.
+   */
   override def compare(that: Vertex): Int = {
     // Return the difference between the two
     minDistance.compare(that.minDistance)
   }
 
-  // Compare this vertex to another
+  /**
+   *  Compare this vertex to another.
+   */
   override def compareTo(that: Vertex): Int = {
 
     // Return the difference between the two

@@ -6,6 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>WOTSScala</name>
 	<dependencies>
+		<!-- SCALA TEST -->
+		<dependency>
+			<groupId>org.scalatest</groupId>
+			<artifactId>scalatest_2.11</artifactId>
+			<version>2.2.5</version>
+		</dependency>
 		<!-- SCALAFX -->
 		<dependency>
 			<groupId>org.scalafx</groupId>

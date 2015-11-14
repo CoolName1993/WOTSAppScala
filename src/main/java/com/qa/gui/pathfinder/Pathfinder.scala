@@ -40,7 +40,7 @@ class Pathfinder {
     vertexList -= source
 
     // Reset the vertex map
-    val vMap2 = new VertexMap().vertexMap
+    val vMap2 = new VertexMap().createMap
 
     nextVertex = new SetTiles().setTiles(0, vertexList, vMap2, nextVertex)
 
@@ -61,7 +61,7 @@ class Pathfinder {
     // Create a new vertex list
     val vertexList = new ListBuffer[Vertex]
 
-    val vMap = new VertexMap().vertexMap
+    val vMap = new VertexMap().createMap
 
     vertexList += (vMap(0)(5))
     new AddLocation().addLocationX(0, locationArray, vMap, vertexList)
