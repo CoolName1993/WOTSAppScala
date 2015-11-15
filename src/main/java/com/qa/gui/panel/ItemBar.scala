@@ -10,20 +10,26 @@ import scalafx.scene.control.ScrollPane
 import scalafx.scene.control.TextField
 
 /**
+ * A dropdown menu used to select an item in an order.
  * @author cboucher
  */
 class ItemBar extends BorderPane {
-  var expanded = false
-  var selectedItem = ""
-  var selectedStack: StackPane = new StackPane
 
+  var selectedItem = ""
+  val selectedStack: StackPane = new StackPane
+
+  /**
+   * Creates a cell in the dropdown menu.
+   * @param title The name of the item.
+   * @return A stack pane that acts like a cell in a combo box.
+   */
   def itemRow(title: String): StackPane = {
-    var stack = new StackPane()
-    var text = new Text(title) {
+    val stack = new StackPane
+    val text = new Text(title) {
       id = "table-dark"
     }
     text.setMouseTransparent(true)
-    var back = new Rectangle() {
+    val back = new Rectangle {
       width = 135
       height = 50
       id = "table-field"
@@ -43,12 +49,20 @@ class ItemBar extends BorderPane {
     stack
   }
 
-  def getRows(): ScrollPane = {
-    var scroll = new ScrollPane
-    var vbox = new VBox
+  /**
+   * Creates the dropdown section that consists of a scroll pane containing a list of item cells.
+   * @return A scroll pane containing stack panes.
+   */
+  def getRows: ScrollPane = {
+    val scroll = new ScrollPane
+    val vbox = new VBox
+    
+    /**
+     * Placeholder function to put fake values in.
+     */
     def makeRow(i: Int) {
-      if (i < 10) { // change this
-        vbox.children.add(itemRow("Item " + i)) // change this
+      if (i < 10) {
+        vbox.children.add(itemRow("Item " + i))
         makeRow(i + (1))
       }
     }
@@ -58,13 +72,19 @@ class ItemBar extends BorderPane {
     scroll
   }
 
+  /**
+   * Creates a button that allows the user to expand the bar like a combo box
+   * @param border The border pane to add the scroll pane to.
+   * @return A stack pane that acts like a button.
+   */
   def dropdown(border: BorderPane): StackPane = {
-    var stack = new StackPane()
-    var text = new Text("V") {
+    val stack = new StackPane
+    var expanded = false
+    val text = new Text("V") {
       id = "table-light"
     }
     text.setMouseTransparent(true)
-    var dropdownBox = new Rectangle() {
+    val dropdownBox = new Rectangle() {
       width = 53
       height = 50
       id = "button-default"
@@ -96,12 +116,15 @@ class ItemBar extends BorderPane {
     stack
   }
 
-  def update() {
-    var text = new Text(selectedItem) {
+  /**
+   * Updates the selected item, similar to selected item in a combo box
+   */
+  def update {
+    val text = new Text(selectedItem) {
       id = "table-dark"
     }
     text.setMouseTransparent(true)
-    var back = new Rectangle() {
+    val back = new Rectangle() {
       width = 100
       height = 50
       id = "table-field"
@@ -109,11 +132,15 @@ class ItemBar extends BorderPane {
     selectedStack.children.addAll(back, text)
   }
 
-  def createPanel() {
-    var border = new BorderPane()
+  /**
+   * Creates the item bar.
+   */
+  def createPanel {
+    val border = new BorderPane
     update
     this.right = dropdown(this)
     this.left = selectedStack
   }
+  
   createPanel
 }

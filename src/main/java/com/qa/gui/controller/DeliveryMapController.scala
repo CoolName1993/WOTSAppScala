@@ -12,12 +12,13 @@ import com.qa.data.entity.Item
 import com.qa.data.entity.Location
 
 /**
+ * Controls the logic behind the delivery map.
  * @author cboucher
  */
 class DeliveryMapController {
 
   def getCurrentMap(): DeliveryMap = {
-    var map = Array(
+    val map = Array(
       Array(2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2),
       Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
       Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),

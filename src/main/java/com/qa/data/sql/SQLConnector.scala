@@ -13,26 +13,26 @@ import javax.sql.DataSource
  * @author cboucher
  */
 object SQLConnector {
+  
   /**
    * Configures the information required to connect to the database.
    */
-  def dataSource(): DataSource = {
-    val dataSource = new MysqlDataSource()
+  def dataSource: DataSource = {
+    val dataSource = new MysqlDataSource
     dataSource.setDatabaseName("nbgardensdata")
     dataSource.setUser("root")
     dataSource.setPassword("password")
     dataSource.setServerName("localhost")
     dataSource
   }
-  /**
-   * The connection to the database
-   */
+  
+  // The connection to the database
   var connection: Connection = _
 
   /**
    * Establishes the connection to the database.
    */
-  def connect(): Unit = {
+  def connect: Unit = {
     try {
       connection = dataSource.getConnection
     } catch {
@@ -43,7 +43,7 @@ object SQLConnector {
   /**
    * Closes the connection to the database.
    */
-  def disconnect(): Unit = {
+  def disconnect: Unit = {
     try {
       connection.close
     } catch {
@@ -59,8 +59,10 @@ object SQLConnector {
    */
   def create(tableName: String, columns: Array[Column]): Unit = {
 
-    // Creates the column section of the query
-    def createColumnString(): String = {
+    /**
+     *  Creates the column section of the query
+     */
+    def createColumnString: String = {
       var output = ""
       def addString(i: Int): Unit = {
         if (i < columns.size) {
@@ -76,8 +78,10 @@ object SQLConnector {
       output
     }
 
-    // Creates the value section of the query
-    def createValueString(): String = {
+    /**
+     *  Creates the value section of the query
+     */
+    def createValueString: String = {
       var output = ""
       def addString(i: Int): Unit = {
         if (i < columns.size) {
@@ -118,9 +122,10 @@ object SQLConnector {
    * @param tableName The name of the table to read from.
    * @param columns The names of the columns to be queried in the table.
    * @param values The values to be queried for each column.
+   * @return The results of the search.
    */
   def read(tableName: String, columns: Array[Column]): Array[Array[Any]] = {
-    def createColumnValuePairs(): String = {
+    def createColumnValuePairs: String = {
       var output = ""
       def createPairs(i: Int) {
         if (i < columns.size) {
@@ -156,20 +161,20 @@ object SQLConnector {
       val resultSet = statement.executeQuery("SELECT * FROM " + tableName + createColumnValuePairs)
 
       // Get result length
-      var rowCount: Int = 0;
-      if (resultSet.last()) {
-        rowCount = resultSet.getRow()
-        resultSet.beforeFirst()
+      var rowCount: Int = 0
+      if (resultSet.last) {
+        rowCount = resultSet.getRow
+        resultSet.beforeFirst
       }
       
       // Create the output as a 2D array of any type
-      var outputArray: Array[Array[Any]] = Array ofDim[Any](rowCount,columns.size)
+      val outputArray: Array[Array[Any]] = Array ofDim[Any](rowCount,columns.size)
       
       // Iterate over the result set
       def storeObjectRow(x: Int) {
         def storeObjectColumn(y: Int) {
           if(y < columns.size) {
-            var rsMetaData: ResultSetMetaData = resultSet.getMetaData
+            val rsMetaData: ResultSetMetaData = resultSet.getMetaData
             val resultType = rsMetaData.getColumnType(y +(1))
             resultType match {
               case Types.INTEGER => outputArray(x)(y) = resultSet.getInt(columns(y).getColumnName)
@@ -210,7 +215,7 @@ object SQLConnector {
    * @param primaryKeyColumns The names of each primary key column in the table.
    */
   def update(tableName: String, columns: Array[Column], primaryKeyColumns: Array[Column]): Unit = {
-    def createColumnUpdate(): String = {
+    def createColumnUpdate: String = {
       var output = ""
       def createPairs(i: Int) {
         if (i < columns.size) {
@@ -225,7 +230,7 @@ object SQLConnector {
       createPairs(0)
       output
     }
-    def createPrimaryKeyString(): String = {
+    def createPrimaryKeyString: String = {
       var output = ""
       def createKeyPair(i: Int) {
         if (i < primaryKeyColumns.size) {

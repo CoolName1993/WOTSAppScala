@@ -66,6 +66,5 @@ class Pathfinder {
     vertexList += (vMap(0)(5))
     new AddLocation().addLocationX(0, locationArray, vMap, vertexList)
     pathfinder(vertexList(0), vertexList, outputMap, vMap)
-    //outputMap
   }
 }

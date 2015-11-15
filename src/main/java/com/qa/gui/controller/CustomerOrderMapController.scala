@@ -7,11 +7,17 @@ import com.qa.data.entity.Item
 import scala.collection.mutable.ListBuffer
 import com.qa.gui.pathfinder.Pathfinder
 import com.qa.gui.panel.CustomerOrderMap
+import com.qa.gui.pathfinder.WarehouseMap
 
 /**
  * @author cboucher
  */
 class CustomerOrderMapController {
+
+  /**
+   * Uses the currently selected customer order and returns a map with the calculated path
+   * @return A customer order map panel with the generated map included.
+   */
   def getCurrentMap: CustomerOrderMap = {
 
     // Create a default map

@@ -45,7 +45,7 @@ case class CustomerOrderMap(map: Array[Array[Int]]) extends GridPane {
         highlight = "map-floor-highlight"
       }
     }
-    var tile = new Rectangle() {
+    val tile = new Rectangle() {
       width = 61
       height = 61
       id = colour
@@ -63,7 +63,7 @@ case class CustomerOrderMap(map: Array[Array[Int]]) extends GridPane {
   }
 
   def createMap() {
-    var tileMap: Array[Array[Rectangle]] = Array.ofDim[Rectangle](map.length, map(0).length)
+    val tileMap: Array[Array[Rectangle]] = Array.ofDim[Rectangle](map.length, map(0).length)
     def addTiles(x: Int) {
       def singleTile(y: Int) {
         if (y < map(x).length) {

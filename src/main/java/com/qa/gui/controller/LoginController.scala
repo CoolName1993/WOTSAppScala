@@ -23,41 +23,42 @@ class LoginController(stage: PrimaryStage, userName: String, password: String) {
   /**
    * Checks the inputted data with users on the database
    */
-  def checkCredentials() {
-    def encryptPassword(): String = {
+  def checkCredentials {
+    def encryptPassword: String = {
       def byteToHex(hash: Array[Byte]): String = {
-        var formatter: Formatter = new Formatter
+        val formatter: Formatter = new Formatter
         var result: String = ""
 
         for (i <- 0 to hash.length - 1) {
           var b: Byte = hash(i)
-          result ++= "%02x".format(b).toString()
+          result ++= "%02x".format(b).toString
         }
         result
       }
       try {
-        var crypt = MessageDigest.getInstance("SHA1")
-        crypt.reset()
+        val crypt = MessageDigest.getInstance("SHA1")
+        crypt.reset
         crypt.update(password.getBytes("UTF-8"))
-        byteToHex(crypt.digest())
+        byteToHex(crypt.digest)
       } catch {
         case e: Exception => {
-          e.printStackTrace()
+          e.printStackTrace
           null
         }
       }
     }
     try {
-      val selectedUser = new User(userName.toInt,encryptPassword,null,null,null,1)
+      val selectedUser = new User(userName.toInt, encryptPassword, null, null, null, 1)
       var user = QueryLoader.searchUser(selectedUser)
       if (user.idUser != null) {
         Session.currentUser = user
         val dashboard = new DashboardWindow(stage)
       }
     } catch {
-      case e: Exception => e.printStackTrace()
+      case e: Exception => e.printStackTrace
     }
 
   }
+  
   checkCredentials
 }

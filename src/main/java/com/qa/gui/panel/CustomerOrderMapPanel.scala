@@ -18,12 +18,12 @@ import com.qa.gui.controller.CustomerOrderMapController
 class CustomerOrderMapPanel extends BorderPane {
 
   def addButton(title: String, default: String, highlight: String, clickFunction: () => Unit): StackPane = {
-    var stack = new StackPane()
-    var text = new Text(title) {
+    val stack = new StackPane
+    val text = new Text(title) {
       id = "light-colour"
     }
     text.setMouseTransparent(true)
-    var back = new Rectangle() {
+    val back = new Rectangle {
       width = 153
       height = 50
       id = default
@@ -45,13 +45,17 @@ class CustomerOrderMapPanel extends BorderPane {
     println("hello")
   }
 
-  def rightPanel(): VBox = {
-    var vbox = new VBox()
+  def rightPanel: VBox = {
+    val vbox = new VBox
     vbox.children.addAll(addButton("Collect", "button-default", "button-default-highlight", placeholder), addButton("Complete", "button-good", "button-good-highlight", placeholder))
     vbox
   }
 
-  this.left = new CustomerOrderMapController().getCurrentMap
-  this.center = rightPanel
+  def createPanel: Unit = {
+    this.left = new CustomerOrderMapController().getCurrentMap
+    this.center = rightPanel
+  }
+
+  createPanel
 
 }

@@ -9,24 +9,19 @@ import com.mongodb.casbah.Imports._
  */
 object MongoConnector {
 
-  /**
-   * String to specify URL to MongoDB
-   */
+  // String to specify URL to MongoDB
   val mongoURL = "localhost"
-  /*
-   * The name of the MongoDB database
-   */
+  
+  // The name of the MongoDB database
   val databaseName = "nbgardensdata"
 
-  /**
-   * The connection to the database
-   */
+  // The connection to the database
   var connection: MongoConnection = _
 
   /**
    * Establishes the connection to the database.
    */
-  def connect(): Unit = {
+  def connect: Unit = {
     try {
       connection = MongoConnection(mongoURL, 27017)
     } catch {
@@ -37,8 +32,8 @@ object MongoConnector {
   /**
    * Closes the connection to the database.
    */
-  def disconnect(): Unit = {
-    connection.close()
+  def disconnect: Unit = {
+    connection.close
   }
 
   /**
@@ -48,8 +43,8 @@ object MongoConnector {
    */
   def read(collectionName: String, fields: Array[Field]): Array[MongoDBObject] = {
     connect
-    def createMongoObject(): MongoDBObject = {
-      var output = MongoDBObject.empty
+    def createMongoObject: MongoDBObject = {
+      val output = MongoDBObject.empty
       def addField(i: Int) {
         if (i < fields.size) {
           output.put(fields(i).getFieldName, fields(i).getValue)
@@ -61,9 +56,9 @@ object MongoConnector {
     }
     try {
       val collection = connection(databaseName)(collectionName)
-      var searchItem = createMongoObject()
+      val searchItem = createMongoObject
       val cursor = collection.find(searchItem)
-      var outputArray = new Array[MongoDBObject](cursor.size)
+      val outputArray = new Array[MongoDBObject](cursor.size)
       def fillArray(i : Int){
         if(cursor.hasNext && i <= outputArray.size) {
           outputArray(i) = cursor.next

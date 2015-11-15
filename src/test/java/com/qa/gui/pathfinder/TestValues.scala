@@ -1,17 +1,75 @@
 package com.qa.gui.pathfinder
 
 import com.qa.data.entity.Location
+import scala.collection.mutable.MutableList
+import scala.collection.mutable.ListBuffer
 
 /**
  * A class to store values used in testing methods in the pathfinder package.
  * @author cboucher
  */
-object TestValues {
+class TestValues {
 
   val blankVertexMap: Array[Array[Vertex]] = createBlankVertexMap
   val vertexArray: Array[Vertex] = createVertexArray
   val locationArray: Array[Array[Location]] = createLocationArray
+  val map = Array(
+    Array(2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2),
+    Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+    Array(2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2))
+  val path: MutableList[Array[Int]] = createPath
+  val vertexList: ListBuffer[Vertex] = createVertexList
 
+  /**
+   * Creates a list of vertexes
+   */
+  def createVertexList: ListBuffer[Vertex] = {
+    val vertexList = new ListBuffer[Vertex]
+    vertexList += new Vertex("X: 0 Y: 5")
+    vertexList(0).minDistance = 0
+    vertexList += new Vertex("X: 0 Y: 7")
+    vertexList(1).minDistance = 4
+    vertexList += new Vertex("X: 0 Y: 8")
+    vertexList(2).minDistance = 5
+    vertexList += new Vertex("X: 0 Y: 6")
+    vertexList(3).minDistance = 3
+    vertexList
+  }
+  
+  /**
+   * Creates a path of vertexes
+   */
+  def createPath: MutableList[Array[Int]] = {
+    val path = new MutableList[Array[Int]]
+    path += new Array[Int](2)
+    path(0)(0) = 0
+    path(0)(1) = 5
+    path += new Array[Int](2)
+    path(1)(0) = 1
+    path(1)(1) = 5
+    path += new Array[Int](2)
+    path(2)(0) = 1
+    path(2)(1) = 6
+    path += new Array[Int](2)
+    path(3)(0) = 1
+    path(3)(1) = 7
+    path += new Array[Int](2)
+    path(4)(0) = 1
+    path(4)(1) = 8
+    path += new Array[Int](2)
+    path(5)(0) = 0
+    path(5)(1) = 8
+    path
+  }
+  
   /**
    * Creates a few vertexes with adjacencies
    */
@@ -40,9 +98,13 @@ object TestValues {
     val locationArray = new Array[Array[Location]](4)
 
     // Add values to the array
+    locationArray(0) = new Array[Location](1)
     locationArray(0)(0) = new Location(0, 0, 0, 5, 1)
+    locationArray(1) = new Array[Location](1)
     locationArray(1)(0) = new Location(0, 0, 6, 4, 1)
+    locationArray(2) = new Array[Location](1)
     locationArray(2)(0) = new Location(0, 0, 10, 9, 1)
+    locationArray(3) = new Array[Location](1)
     locationArray(3)(0) = new Location(0, 0, 8, 8, 1)
 
     // Return the result

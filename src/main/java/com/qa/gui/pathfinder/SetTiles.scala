@@ -9,7 +9,8 @@ import scala.collection.mutable.ListBuffer
 class SetTiles {
 
   /**
-   * Resets the vertexes to match those on the vertex map
+   * Resets the vertexes to match those on the vertex map.
+   * @return The next vertex with its values reset.
    */
   def setTiles(z: Int, vertexList: ListBuffer[Vertex], vMap: Array[Array[Vertex]], nVertex: Vertex): Vertex = {
 

@@ -16,17 +16,27 @@ import scalafx.scene.input.MouseEvent
 import com.qa.gui.controller.DeliveryMapController
 
 /**
+ * The panel that displays a map of the current delivery
+ * alongside buttons that allow the user to place items into the warehouse.
  * @author cboucher
  */
-class DeliveryMapPanel() extends BorderPane {
+class DeliveryMapPanel extends BorderPane {
 
+  /**
+   * Creates a button that performs a function when pressed.
+   * @param title The text on the button.
+   * @param default The default id of the button.
+   * @param highlight The highlight id of the button.
+   * @param clickfunction The function that will be performed when the button is clicked.
+   * @return A stack pane that acts like a button.
+   */
   def addButton(title: String, default: String, highlight: String, clickFunction: () => Unit): StackPane = {
-    var stack = new StackPane()
-    var text = new Text(title) {
+    val stack = new StackPane
+    val text = new Text(title) {
       id = "light-colour"
     }
     text.setMouseTransparent(true)
-    var back = new Rectangle() {
+    val back = new Rectangle() {
       width = 153
       height = 50
       id = default
@@ -44,19 +54,23 @@ class DeliveryMapPanel() extends BorderPane {
     stack
   }
 
-  def inputAmount(): VBox = {
-    var vbox = new VBox
-    var stack = new StackPane()
-    var text = new Text("Quantity") {
+  /**
+   * Creates a section that prompts the user to enter a quantity
+   * @return A VBox containing a stack pane and a text field.
+   */
+  def inputAmount: VBox = {
+    val vbox = new VBox
+    val stack = new StackPane
+    val text = new Text("Quantity") {
       id = "dark-colour"
     }
-    var back = new Rectangle() {
+    var back = new Rectangle {
       width = 153
       height = 50
       id = "table-field"
     }
     stack.children.addAll(back, text)
-    var textField = new TextField()
+    val textField = new TextField
     textField.font = Font.font("Tahoma", 24)
     textField.prefWidth = 153
     textField.setPromptText("Quantity")
@@ -64,19 +78,34 @@ class DeliveryMapPanel() extends BorderPane {
     vbox
   }
 
-  def placeholder() { // replace with controller stuff
-    println("HELLO")
+  /**
+   * Placeholder for functions that will be performed when buttons are pressed.
+   */
+  def placeholder() {
+    println("To be implemented")
   }
 
-  def leftPanel(): FlowPane = {
-    var flow = new FlowPane()
+  /**
+   * Creates the left panel that includes buttons that do stuff.
+   * @return A flow pane containing buttons made from stack panes.
+   */
+  def leftPanel: FlowPane = {
+    var flow = new FlowPane
     flow.setPrefWrapLength(153)
-    flow.children.add(new ItemBar())
+    flow.children.add(new ItemBar)
     flow.children.add(inputAmount)
     flow.children.add(addButton("Add item", "button-default", "button-default-highlight", placeholder))
     flow.children.add(addButton("Submit delivery", "button-good", "button-good-highlight", placeholder))
     flow
   }
-  this.center = leftPanel
-  this.left = new DeliveryMapController().getCurrentMap
+
+  /**
+   * Creates a panel that displays the delivery map and other buttons.
+   */
+  def createPanel: Unit = {
+    this.center = leftPanel
+    this.left = new DeliveryMapController().getCurrentMap
+  }
+
+  createPanel
 }

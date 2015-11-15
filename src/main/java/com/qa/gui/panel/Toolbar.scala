@@ -15,32 +15,34 @@ import scalafx.scene.image.ImageView
 import scalafx.scene.paint.Color
 
 /**
+ * The top bar that contains the company logo and a close button.
  * @author cboucher
  */
 class Toolbar(stage: PrimaryStage) extends BorderPane {
-  val HEIGHT = 40
-  val bad = Color.rgb(186, 13, 8)
-  val badHighlight = Color.rgb(239, 46, 41)
-  def close(): StackPane = {
-    var close = new StackPane()
-    var text = new Text("X") {
-      fill = Grey
-      font = Font.font("Tahoma", 16)
+
+  /**
+   * Creates the close button.
+   * @return A button that closes the program.
+   */
+  def close: StackPane = {
+    val close = new StackPane
+    val text = new Text("X") {
+      id = "dark-colour"
     }
-    var rect = new Rectangle() {
+    val rect = new Rectangle {
       width = 60
-      height = HEIGHT
-      fill = LightGrey
+      height = 40
+      id = "table-field"
       onMouseClicked = (me: MouseEvent) => {
         System.exit(1)
       }
       onMouseEntered = (me: MouseEvent) => {
-        fill = badHighlight
-        text.fill = White
+        id = "button-bad-highlight"
+        text.id = "light-colour"
       }
       onMouseExited = (me: MouseEvent) => {
-        fill = LightGrey
-        text.fill = Grey
+        id = "table-field"
+        text.id = "dark-colour"
       }
     }
     text.setMouseTransparent(true)
@@ -48,18 +50,34 @@ class Toolbar(stage: PrimaryStage) extends BorderPane {
     close
   }
 
-  def buttons(): HBox = {
-    var hbox = new HBox()
+  /**
+   * Creates a HBox that holds all buttons in the top right of the toolbar.
+   * @return A HBox containing buttons.
+   */
+  def buttons: HBox = {
+    val hbox = new HBox
     hbox.children.addAll(close)
     hbox
   }
 
-  def logo(): ImageView = {
-    var image = new Image("logo.png", 150, HEIGHT, true, true)
-    var imgview = new ImageView(image)
+  /**
+   * Creates the logo that is displayed in the top left of the toolbar.
+   * @return An image pane containing the logo.
+   */
+  def logo: ImageView = {
+    val image = new Image("logo.png", 150, 40, true, true)
+    val imgview = new ImageView(image)
     imgview
   }
 
-  this.right = buttons
-  this.left = logo
+  /**
+   * Creates the toolbar
+   */
+  def createPanel: Unit = {
+    this.right = buttons
+    this.left = logo
+  }
+
+  createPanel
+
 }

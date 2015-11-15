@@ -27,11 +27,11 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
    * Creates the status button which can be toggled on and off
    */
   def status: StackPane = {
-    var text = new Text("Inactive") {
+    val text = new Text("Inactive") {
       id = "table-light"
     }
     text.setMouseTransparent(true)
-    var statusBox = new Rectangle {
+    val statusBox = new Rectangle {
       width = 100
       height = 50
       id = current
@@ -59,7 +59,7 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
         id = current
       }
     }
-    var stack = new StackPane()
+    val stack = new StackPane()
     stack.children.addAll(statusBox, text)
     stack
   }
@@ -68,11 +68,11 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
    * Creates the dropdown button which is used to expand the row
    */
   def dropdown(border: BorderPane): StackPane = {
-    var text = new Text("V") {
+    val text = new Text("V") {
       id = "table-light"
     }
     text.setMouseTransparent(true)
-    var dropdownBox = new Rectangle {
+    val dropdownBox = new Rectangle {
       width = 100
       height = 50
       id = "button-default"
@@ -101,7 +101,7 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
       }
     }
 
-    var stack = new StackPane
+    val stack = new StackPane
     stack.children.addAll(dropdownBox, text)
     stack
   }
@@ -110,15 +110,15 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
    *  Creates a box in the bar
    */
   def field(setWidth: Int, setID: String, setTextID: String, setText: String): StackPane = {
-    var back = new Rectangle {
+    val back = new Rectangle {
       width = setWidth
       height = 50
       id = setID
     }
-    var text = new Text(setText) {
+    val text = new Text(setText) {
       id = setTextID
     }
-    var stack = new StackPane
+    val stack = new StackPane
     stack.children.addAll(back, text)
     stack
   }
@@ -127,13 +127,13 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
    * Creates the main bar
    */
   def customerOrderInfo: HBox = {
-    var deliveryBox = new HBox
-    var expectedTitle = field(100, "table-title", "table-dark", "Created:")
-    var expected = field(100, "table-field", "table-dark", customerOrder.datePlaced.getValue.toString)
-    var idTitle = field(100, "table-title", "table-dark", "Order ID:")
-    var id = field(100, "table-field", "table-dark", customerOrder.idCustomerOrder.getValue.toString)
-    var employeeTitle = field(100, "table-title", "table-dark", "Assignee:")
-    var employee = field(100, "table-field", "table-dark", customerOrder.idEmployee.getValue.toString)
+    val deliveryBox = new HBox
+    val expectedTitle = field(100, "table-title", "table-dark", "Created:")
+    val expected = field(100, "table-field", "table-dark", customerOrder.datePlaced.getValue.toString)
+    val idTitle = field(100, "table-title", "table-dark", "Order ID:")
+    val id = field(100, "table-field", "table-dark", customerOrder.idCustomerOrder.getValue.toString)
+    val employeeTitle = field(100, "table-title", "table-dark", "Assignee:")
+    val employee = field(100, "table-field", "table-dark", customerOrder.idEmployee.getValue.toString)
     deliveryBox.children.addAll(idTitle, id, expectedTitle, expected, employeeTitle, employee)
     deliveryBox
   }
@@ -142,19 +142,19 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
    * Creates the more info bar which displays each item in the customer order
    */
   def moreInfo: VBox = {
-    var lineList = QueryLoader.searchCustomerOrderLine(customerOrder)
-    var infoPane = new VBox()
+    val lineList = QueryLoader.searchCustomerOrderLine(customerOrder)
+    val infoPane = new VBox()
     def lineInfo(i: Int): Unit = {
       if (i < lineList.size) {
         val currentItem = QueryLoader.searchItem(new Item(lineList(i).idItem.getValue, null, null, null))
-        var customerBox = new HBox
-        var idTitle = field(100, "table-title", "table-dark", "Item ID:")
-        var id = field(100, "table-field", "table-dark", lineList(i).idItem.getValue.toString)
-        var itemNameTitle = field(100, "table-title", "table-dark", "Item name:")
-        var itemName = field(200, "table-field", "table-dark", currentItem.itemName.getValue.toString)
-        var quantityTitle = field(100, "table-title", "table-dark", "Quantity:")
-        var quantity = field(100, "table-field", "table-dark", lineList(i).quantity.getValue.toString)
-        var empty = field(100, "table-field", "table-light", "")
+        val customerBox = new HBox
+        val idTitle = field(100, "table-title", "table-dark", "Item ID:")
+        val id = field(100, "table-field", "table-dark", lineList(i).idItem.getValue.toString)
+        val itemNameTitle = field(100, "table-title", "table-dark", "Item name:")
+        val itemName = field(200, "table-field", "table-dark", currentItem.itemName.getValue.toString)
+        val quantityTitle = field(100, "table-title", "table-dark", "Quantity:")
+        val quantity = field(100, "table-field", "table-dark", lineList(i).quantity.getValue.toString)
+        val empty = field(100, "table-field", "table-light", "")
         customerBox.children.addAll(empty, idTitle, id, itemNameTitle, itemName, quantityTitle, quantity)
         infoPane.children.add(customerBox)
         println(i)
@@ -165,7 +165,14 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
     infoPane
   }
 
-  this.left = status
-  this.center = customerOrderInfo
-  this.right = dropdown(this)
+  /**
+   * Sets the panes on the panel.
+   */
+  def createPanel: Unit = {
+    this.left = status
+    this.center = customerOrderInfo
+    this.right = dropdown(this)
+  }
+  
+  createPanel
 }

@@ -15,7 +15,7 @@ class VertexMapTest extends TestBase {
 
       def loopY(y: Int) {
         if (y < result(x).length) {
-          assert(result(x)(y).name.equals(TestValues.blankVertexMap(x)(y).name))
+          assert(result(x)(y).name.equals(new TestValues().blankVertexMap(x)(y).name))
           loopY(y + (1))
         }
       }
@@ -29,13 +29,13 @@ class VertexMapTest extends TestBase {
 
   "fillMap" should "add correct adjacencies to the vertex map" in {
 
-    val result = (TestValues.blankVertexMap)
+    val result = (new TestValues().blankVertexMap)
     new VertexMap().fillMap(result)
 
-    assert(result(0)(5).adjacencies(0).target.name.equals(TestValues.vertexArray(0).adjacencies(0).target.name))
-    assert(result(6)(4).adjacencies(0).target.name.equals(TestValues.vertexArray(1).adjacencies(0).target.name))
-    assert(result(10)(9).adjacencies(0).target.name.equals(TestValues.vertexArray(2).adjacencies(0).target.name))
-    assert(result(8)(8).adjacencies(0).target.name.equals(TestValues.vertexArray(3).adjacencies(0).target.name))
+    assert(result(0)(5).adjacencies(0).target.name.equals(new TestValues().vertexArray(0).adjacencies(0).target.name))
+    assert(result(6)(4).adjacencies(0).target.name.equals(new TestValues().vertexArray(1).adjacencies(0).target.name))
+    assert(result(10)(9).adjacencies(0).target.name.equals(new TestValues().vertexArray(2).adjacencies(0).target.name))
+    assert(result(8)(8).adjacencies(0).target.name.equals(new TestValues().vertexArray(3).adjacencies(0).target.name))
 
   }
 
@@ -43,9 +43,9 @@ class VertexMapTest extends TestBase {
 
     val result = new VertexMap().createMap
 
-    assert(result(0)(5).adjacencies(0).target.name.equals(TestValues.vertexArray(0).adjacencies(0).target.name))
-    assert(result(6)(4).adjacencies(0).target.name.equals(TestValues.vertexArray(1).adjacencies(0).target.name))
-    assert(result(10)(9).adjacencies(0).target.name.equals(TestValues.vertexArray(2).adjacencies(0).target.name))
-    assert(result(8)(8).adjacencies(0).target.name.equals(TestValues.vertexArray(3).adjacencies(0).target.name))
+    assert(result(0)(5).adjacencies(0).target.name.equals(new TestValues().vertexArray(0).adjacencies(0).target.name))
+    assert(result(6)(4).adjacencies(0).target.name.equals(new TestValues().vertexArray(1).adjacencies(0).target.name))
+    assert(result(10)(9).adjacencies(0).target.name.equals(new TestValues().vertexArray(2).adjacencies(0).target.name))
+    assert(result(8)(8).adjacencies(0).target.name.equals(new TestValues().vertexArray(3).adjacencies(0).target.name))
   }
 }

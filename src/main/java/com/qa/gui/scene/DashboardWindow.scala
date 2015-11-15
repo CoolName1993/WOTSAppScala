@@ -47,16 +47,22 @@ import com.qa.application.Session
 class DashboardWindow(stage: PrimaryStage) {
   val HEIGHT = 768
   val WIDTH = 1024
-  stage.setTitle("Warehouse Order Tracking Application")
 
-  def createButton(title: String, panel: () => Unit): StackPane = {
-    var stack = new StackPane()
-    var button = new Rectangle() {
+  /**
+   * Creates a button to be used to navigate to other pages.
+   * @param title The text on top of the button.
+   * @param border The border pane to edit when the button is pressed.
+   * @panel panel The panel to navigate to when the button is pressed.
+   * @return A stack pane that acts like a button.
+   */
+  def createButton(title: String, border: BorderPane, panel: (BorderPane) => Unit): StackPane = {
+    val stack = new StackPane
+    val button = new Rectangle {
       width = 200
       height = 50
       id = "button-default"
       onMouseClicked = (me: MouseEvent) => {
-        panel()
+        panel(border)
       }
       onMouseEntered = (me: MouseEvent) => {
         id = "button-default-highlight"
@@ -65,7 +71,7 @@ class DashboardWindow(stage: PrimaryStage) {
         id = "button-default"
       }
     }
-    var text = new Text(title) {
+    val text = new Text(title) {
       id = "light-colour"
     }
     text.setMouseTransparent(true)
@@ -73,52 +79,81 @@ class DashboardWindow(stage: PrimaryStage) {
     stack
   }
 
+  /**
+   * Creates the title above each section of buttons.
+   * @param title The text on top of the title rectangle.
+   * @return A stack pane with the title on top.
+   */
   def createTitle(title: String): StackPane = {
-    var stack = new StackPane()
-    var back = new Rectangle() {
+    val stack = new StackPane
+    val back = new Rectangle {
       width = 200
       height = 100
       id = "title"
     }
-    var text = new Text(title) {
+    val text = new Text(title) {
       id = "dark-colour"
     }
     stack.children.addAll(back, text)
     stack
   }
 
-  def createScene(): Scene = {
-    var border = new BorderPane()
-    var flow = new FlowPane()
+  /**
+   * Sets the centre panel to the delivery panel
+   * @param border The border panel to add the panel to.
+   */
+  def setDeliveries(border: BorderPane): Unit = {
+    border.center = new DeliveryPanel
+    println(Session.currentCustomerOrder)
+  }
+
+  /**
+   * Sets the centre panel to the delivery map panel
+   * @param border The border panel to add the panel to.
+   */
+  def setDeliveryMap(border: BorderPane): Unit = {
+    border.center = new DeliveryMapPanel
+    println(Session.currentCustomerOrder)
+  }
+
+  /**
+   * Sets the centre panel to the customer order panel
+   * @param border The border panel to add the panel to.
+   */
+  def setCustomers(border: BorderPane): Unit = {
+    border.center = new CustomerOrderPanel
+    println(Session.currentCustomerOrder)
+  }
+
+  /**
+   * Sets the centre panel to the customer order map panel
+   * @param border The border panel to add the panel to.
+   */
+  def setCustomerMap(border: BorderPane): Unit = {
+    border.center = new CustomerOrderMapPanel
+    println(Session.currentCustomerOrder)
+  }
+
+  /**
+   * Creates the scene and adds the sidebar.
+   * @return The created scene with a navigation sidebar and toolbar at the top.
+   */
+  def createScene: Scene = {
+    val border = new BorderPane
+    val flow = new FlowPane
     flow.setPrefWrapLength(150)
 
     // Create the scene
     val scene = new Scene(border, WIDTH, HEIGHT)
-    scene.stylesheets = List(getClass.getResource("/stylesheet.css").toExternalForm())
-
-    def setDeliveries() {
-      border.center = new DeliveryPanel()
-      println(Session.currentCustomerOrder)
-    }
-    def setDeliveryMap() {
-      border.center = new DeliveryMapPanel()
-      println(Session.currentCustomerOrder)
-    }
-    def setCustomers() {
-      border.center = new CustomerOrderPanel()
-      println(Session.currentCustomerOrder)
-    }
-    def setCustomerMap() {
-      border.center = new CustomerOrderMapPanel()
-      println(Session.currentCustomerOrder)
-    }
-
-    flow.children.addAll(createTitle("Deliveries"), createButton("Available", setDeliveries), createButton("Assigned", setDeliveryMap), createTitle("Customer Orders"), createButton("Available", setCustomers), createButton("Assigned", setCustomerMap))
+    scene.stylesheets = List(getClass.getResource("/stylesheet.css").toExternalForm)
+    flow.children.addAll(createTitle("Deliveries"), createButton("Available", border, setDeliveries), createButton("Assigned", border, setDeliveryMap), createTitle("Customer Orders"), createButton("Available", border, setCustomers), createButton("Assigned", border, setCustomerMap))
     border.left = flow
     border.top = new Toolbar(stage)
     border.center = new DeliveryPanel
     scene
   }
+  
+  stage.setTitle("Warehouse Order Tracking Application")
   stage.setScene(createScene)
-  stage.centerOnScreen()
+  stage.centerOnScreen
 }

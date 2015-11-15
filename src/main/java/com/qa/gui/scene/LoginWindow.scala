@@ -35,16 +35,52 @@ import scalafx.scene.input.MouseEvent
 import scalafx.scene.paint.Color
 
 /**
+ * The log in window.
+ * @param stage The primary stage of the application to assign the scene to.
  * @author cboucher
  */
 class LoginWindow(stage: PrimaryStage) {
-  stage.setTitle("Log In")
-  def createScene(): Scene = {
 
-    var border = new BorderPane()
+  /**
+   * Creates the log in button
+   * @param userTexField The username text field.
+   * @param pwBox The password text field.
+   * @return A stack pane that acts like a button.
+   */
+  def login(userTextField: TextField, pwBox: PasswordField): StackPane = {
+    val close = new StackPane
+    val text = new Text("Log in") {
+      id = "light-colour"
+    }
+    val rect = new Rectangle {
+      width = 80
+      height = 50
+      id = "button-good"
+      onMouseClicked = (me: MouseEvent) => {
+        new LoginController(stage, userTextField.text.value, pwBox.getText)
+      }
+      onMouseEntered = (me: MouseEvent) => {
+        id = "button-good-highlight"
+      }
+      onMouseExited = (me: MouseEvent) => {
+        id = "button-good"
+      }
+    }
+    text.setMouseTransparent(true)
+    close.children.addAll(rect, text)
+    close
+  }
+
+  /**
+   * Creates the log in window scene and sets it as the current scene on the stage.
+   * @return The created log in scene.
+   */
+  def createScene: Scene = {
+
+    val border = new BorderPane
 
     // Set up the grid
-    var grid = new GridPane()
+    val grid = new GridPane
     grid.setAlignment(Pos.Center)
     grid.setHgap(10)
     grid.setVgap(10)
@@ -52,7 +88,7 @@ class LoginWindow(stage: PrimaryStage) {
 
     // Create the scene
     val scene = new Scene(border, 1024, 768)
-    scene.stylesheets = List(getClass.getResource("/stylesheet.css").toExternalForm())
+    scene.stylesheets = List(getClass.getResource("/stylesheet.css").toExternalForm)
 
     // Create a welcome label
     val scenetitle = new Text("Welcome") {
@@ -67,7 +103,7 @@ class LoginWindow(stage: PrimaryStage) {
     grid.add(userName, 0, 1)
 
     // Create the user name text field
-    val userTextField = new TextField()
+    val userTextField = new TextField
     userTextField.font = Font.font("Tahoma", 24)
     userTextField.prefWidth = 153
     userTextField.setPromptText("Username")
@@ -86,38 +122,16 @@ class LoginWindow(stage: PrimaryStage) {
     pwBox.setPromptText("Password")
     grid.add(pwBox, 1, 2)
 
-    // Set up the log in button
-    def login(): StackPane = {
-      var close = new StackPane()
-      var text = new Text("Log in") {
-        id = "light-colour"
-      }
-      var rect = new Rectangle() {
-        width = 80
-        height = 50
-        id = "button-good"
-        onMouseClicked = (me: MouseEvent) => {
-          new LoginController(stage, userTextField.text.value, pwBox.getText)
-        }
-        onMouseEntered = (me: MouseEvent) => {
-          id = "button-good-highlight"
-        }
-        onMouseExited = (me: MouseEvent) => {
-          id = "button-good"
-        }
-      }
-      text.setMouseTransparent(true)
-      close.children.addAll(rect, text)
-      close
-    }
-    var hbBtn = new HBox(10)
+    val hbBtn = new HBox(10)
     hbBtn.setAlignment(Pos.BottomRight)
-    hbBtn.getChildren().add(login)
+    hbBtn.getChildren().add(login(userTextField, pwBox))
     grid.add(hbBtn, 1, 4)
     border.center = grid
     border.top = new Toolbar(stage)
     scene
   }
+
+  stage.setTitle("Log In")
   stage.setScene(createScene)
 
 }

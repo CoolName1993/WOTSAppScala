@@ -33,7 +33,7 @@ case class DeliveryMap(map: Array[Array[Int]]) extends GridPane {
         highlight = "map-wall-highlight"
       }
     }
-    var tile = new Rectangle() {
+    val tile = new Rectangle() {
       width = 61
       height = 61
       id = colour
@@ -50,8 +50,8 @@ case class DeliveryMap(map: Array[Array[Int]]) extends GridPane {
     tile
   }
 
-  def createMap() {
-    var tileMap: Array[Array[Rectangle]] = Array.ofDim[Rectangle](map.length, map(0).length)
+  def createMap {
+    val tileMap: Array[Array[Rectangle]] = Array.ofDim[Rectangle](map.length, map(0).length)
     def addTiles(x: Int) {
       def singleTile(y: Int) {
         if (y < map(x).length) {

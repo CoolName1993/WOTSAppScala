@@ -14,18 +14,12 @@ import scalafx.stage.StageStyle
  */
 object Main extends JFXApp {
 
-  //TEST//
-//  SQLConnector.connect
-//  SQLConnector.disconnect
-//  val fields = Array(new Field("IsPorousware", true), new Field("idSupplier", 2))
-//  val results = MongoConnector.read("Item", fields)
-//  for (result <- results) {
-//    println(result.toString())
-//  }
-  //TEST//
-
-  stage = new PrimaryStage()
-  stage.resizable = false
-  stage.initStyle(StageStyle.UNDECORATED)
-  val loginWindow = new LoginWindow(stage)
+  def run: Unit = {
+    stage = new PrimaryStage()
+    stage.resizable = false
+    stage.initStyle(StageStyle.UNDECORATED)
+    val loginWindow = new LoginWindow(stage)
+  }
+  
+  run
 }

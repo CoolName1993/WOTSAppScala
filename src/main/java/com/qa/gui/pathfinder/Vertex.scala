@@ -9,19 +9,17 @@ class Vertex(name_ : String) extends Ordered[Vertex] {
   var adjacencies: Array[Edge] = _
   var minDistance = Double.PositiveInfinity
   var previous: Vertex = _
-  var xPos: Int = 0
-  var yPos: Int = 0
-  var visited = false
 
   /**
    *  Return the vertex name.
    */
-  override def toString() = name
+  override def toString = name
 
   /**
    * Compare the vertex to another.
    */
   override def compare(that: Vertex): Int = {
+    
     // Return the difference between the two
     minDistance.compare(that.minDistance)
   }
