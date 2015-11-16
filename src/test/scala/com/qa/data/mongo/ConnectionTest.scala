@@ -22,5 +22,6 @@ class ConnectionTest extends TestBase {
   
   "The database" should "be online in order to run the other tests" in {
     assert(testConnect == true)
+    MongoConnector.disconnect
   }
 }

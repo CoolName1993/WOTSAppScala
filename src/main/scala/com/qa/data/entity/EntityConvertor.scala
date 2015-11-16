@@ -37,7 +37,7 @@ object EntityConvertor {
   }
   
   def convertToItem(input: MongoDBObject): Item = {
-    val itemID = input.get("idItem").get.toString
+    val itemID = input.get("idItem").get.toString.toInt
     val itemName = input.get("ItemName").get.toString
     val imageLocation = input.get("ImageLocation").get.toString
     val isPorousWare = input.get("IsPorousware").get.toString.equals("true")
