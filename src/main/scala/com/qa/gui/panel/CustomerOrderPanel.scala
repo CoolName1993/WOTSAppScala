@@ -12,11 +12,6 @@ import com.qa.gui.controller.CustomerOrderPanelController
  */
 class CustomerOrderPanel extends BorderPane {
 
-  def createPanel: Unit = {
-    val orders = new ScrollPane
-    orders.setContent(new CustomerOrderPanelController().createTable)
-    this.center = orders
-  }
-  
-  createPanel
+  // Get the customer panel controller to create the scene.
+  new CustomerOrderPanelController().createPanel(this)
 }

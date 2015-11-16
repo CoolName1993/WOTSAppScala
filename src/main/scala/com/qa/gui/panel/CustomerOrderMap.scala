@@ -6,16 +6,18 @@ import scalafx.scene.paint.Color._
 import scalafx.scene.input.MouseEvent
 import scalafx.Includes._
 import scalafx.scene.layout.GridPane
+import com.qa.gui.controller.CustomerOrderMapController
+import scalafx.scene.layout.BorderPane
 
 /**
  * @author cboucher
  */
-case class CustomerOrderMap(map: Array[Array[Int]]) extends GridPane {
+class CustomerOrderMap(map: Array[Array[Int]], scene: BorderPane) extends GridPane {
 
-  def createTile(x: Int, y: Int): Rectangle = {
+  def createTile(row: Int, col: Int, scene_ : BorderPane): Rectangle = {
     var colour = ""
     var highlight = ""
-    map(x)(y) match {
+    map(row)(col) match {
       case 0 => {
         colour = "map-floor"
         highlight = "map-floor-highlight"
@@ -50,7 +52,7 @@ case class CustomerOrderMap(map: Array[Array[Int]]) extends GridPane {
       height = 61
       id = colour
       onMouseClicked = (me: MouseEvent) => {
-        // do stuff
+        new CustomerOrderMapController().removeItem(row,col,scene_)
       }
       onMouseEntered = (me: MouseEvent) => {
         id = highlight
@@ -67,7 +69,7 @@ case class CustomerOrderMap(map: Array[Array[Int]]) extends GridPane {
     def addTiles(x: Int) {
       def singleTile(y: Int) {
         if (y < map(x).length) {
-          this.add(createTile(x, y), y, x)
+          this.add(createTile(x, y, scene), y, x)
           singleTile(y + (1))
         }
       }

@@ -13,59 +13,79 @@ import scalafx.scene.layout.VBox
 import com.qa.data.entity.{ CustomerOrder, Item }
 import com.qa.data.entity.QueryLoader
 import com.qa.application.Session
+import com.qa.gui.controller.CustomerOrderPanelController
 
 /**
  * One order bar in the available customer order tab in the GUI
  * @author cboucher
  */
-case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
+class CustomerOrderBar(customerOrder: CustomerOrder, scene: BorderPane) extends BorderPane {
 
   var expanded = false
   var current = "button-bad"
 
   /**
-   * Creates the status button which can be toggled on and off
+   * Creates the status button which can be toggled on and off.
+   * @return A stack pane that acts like a button.
    */
   def status: StackPane = {
-    val text = new Text("Inactive") {
+    var disabled = false
+    val text = new Text("") {
       id = "table-light"
     }
+    if (Session.currentCustomerOrder != null) {
+      if (Session.currentCustomerOrder.idCustomerOrder.getValue.equals(customerOrder.idCustomerOrder.getValue)) {
+        current = "button-good"
+        text.text = "Assigned"
+      } else {
+        disabled = true
+        current = "button-disabled"
+        text.text = "Unassigned"
+        text.id = "table-dark"
+      }
+    } else {
+      text.text = "Unassigned"
+    }
     text.setMouseTransparent(true)
+
     val statusBox = new Rectangle {
       width = 100
       height = 50
       id = current
-      onMouseClicked = (me: MouseEvent) => {
+    }
+
+    if (!disabled) {
+      statusBox.onMouseClicked = (me: MouseEvent) => {
         if (current == "button-good") {
-          current = "button-bad"
-          id = "button-bad-highlight"
-          text.text = "Inactive"
-          Session.currentCustomerOrder = null
+          new CustomerOrderPanelController().selectCustomerOrder(null)
+          new CustomerOrderPanelController().createPanel(scene)
+          
         } else {
-          Session.currentCustomerOrder = customerOrder
-          current = "button-good"
-          id = "button-good-highlight"
-          text.text = "Active"
+          new CustomerOrderPanelController().selectCustomerOrder(customerOrder)
+          new CustomerOrderPanelController().createPanel(scene)
         }
       }
-      onMouseEntered = (me: MouseEvent) => {
+      statusBox.onMouseEntered = (me: MouseEvent) => {
         if (current == "button-good") {
-          id = "button-good-highlight"
+          statusBox.id = "button-good-highlight"
         } else {
-          id = "button-bad-highlight"
+          statusBox.id = "button-bad-highlight"
         }
       }
-      onMouseExited = (me: MouseEvent) => {
-        id = current
+      statusBox.onMouseExited = (me: MouseEvent) => {
+        statusBox.id = current
       }
     }
+
     val stack = new StackPane()
     stack.children.addAll(statusBox, text)
     stack
   }
 
   /**
-   * Creates the dropdown button which is used to expand the row
+   * Creates the dropdown button which is used to expand the row.
+   * @param border The border pane to attach the dropdown menu to.
+   * @return A stack pane that acts like a button.
    */
   def dropdown(border: BorderPane): StackPane = {
     val text = new Text("V") {
@@ -108,6 +128,11 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
 
   /**
    *  Creates a box in the bar
+   *  @param setWidth The width of the box.
+   *  @param setID The id of the box.
+   *  @param setTextID The text id of the box.
+   *  @param setText The text in the box
+   *  @return A stack pane with a rectangle with text on top of it.
    */
   def field(setWidth: Int, setID: String, setTextID: String, setText: String): StackPane = {
     val back = new Rectangle {
@@ -125,6 +150,7 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
 
   /**
    * Creates the main bar
+   * @return A HBox with info on the customer order.
    */
   def customerOrderInfo: HBox = {
     val deliveryBox = new HBox
@@ -140,6 +166,7 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
 
   /**
    * Creates the more info bar which displays each item in the customer order
+   * @return A VBox with info on all items in the customer order
    */
   def moreInfo: VBox = {
     val lineList = QueryLoader.searchCustomerOrderLine(customerOrder)
@@ -173,6 +200,6 @@ case class CustomerOrderBar(customerOrder: CustomerOrder) extends BorderPane {
     this.center = customerOrderInfo
     this.right = dropdown(this)
   }
-  
+
   createPanel
 }

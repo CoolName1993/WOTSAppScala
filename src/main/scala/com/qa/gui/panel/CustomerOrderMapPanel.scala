@@ -52,7 +52,7 @@ class CustomerOrderMapPanel extends BorderPane {
   }
 
   def createPanel: Unit = {
-    this.left = new CustomerOrderMapController().getCurrentMap
+    new CustomerOrderMapController().getCurrentMap(new CustomerOrderMapController().queryOrder, this)
     this.center = rightPanel
   }
 

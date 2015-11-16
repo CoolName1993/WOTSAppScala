@@ -22,9 +22,11 @@ class AddLocation {
       // If not at the end of the array
       if (y < locationArray(x).length) {
 
-        // Add a vertex to the list
-        vertexList += (vMap(locationArray(x)(y).row.getValue.asInstanceOf[Int])(locationArray(x)(y).col.getValue.asInstanceOf[Int]))
+        if (locationArray(x)(y) != null) {
 
+          // Add a vertex to the list
+          vertexList += (vMap(locationArray(x)(y).row.getValue.asInstanceOf[Int])(locationArray(x)(y).col.getValue.asInstanceOf[Int]))
+        }
         // Repeat
         addLocationY(x + (1))
       }
