@@ -4,11 +4,16 @@ import com.qa.data.sql.SQLConnector
 import com.qa.data.mongo.MongoConnector
 
 /**
+ * Contains all queries required for the application.
  * @author cboucher
  */
 object QueryLoader {
 
-  // Searches the database for matching purchase orders
+  /**
+   *  Searches the database for matching purchase orders.
+   *  @param selectedPurchaseOrder The purchase order to search for.
+   *  @return An array of results.
+   */
   def searchPurchaseOrder(selectedPurchaseOrder: PurchaseOrder): Array[PurchaseOrder] = {
     val searchOrder = new PurchaseOrder(selectedPurchaseOrder.idPurchaseOrder.getValue, null, null, null, null, null)
     val searchValues = Array(searchOrder.idPurchaseOrder, searchOrder.datePlaced, searchOrder.dateExpected, searchOrder.idPurchaseOrderStatus, searchOrder.idSupplier, searchOrder.idEmployee)
@@ -29,7 +34,11 @@ object QueryLoader {
     }
   }
 
-  // Searches the database for matching customer orders
+  /**
+   *  Searches the database for matching customer orders.
+   *  @param selectedCustomerOrder The customer order to search for.
+   *  @return An array of results.
+   */
   def searchCustomerOrder(selectedCustomerOrder: CustomerOrder): Array[CustomerOrder] = {
     val searchOrder = new CustomerOrder(selectedCustomerOrder.idCustomerOrder.getValue, null, null, null, null, null, null, null)
     val searchValues = Array(selectedCustomerOrder.idCustomerOrder, selectedCustomerOrder.datePlaced, selectedCustomerOrder.dateShipped, selectedCustomerOrder.isPaid, selectedCustomerOrder.idAddress, selectedCustomerOrder.idCustomerOrderStatus, selectedCustomerOrder.idEmployee, selectedCustomerOrder.idCustomer)
@@ -50,7 +59,11 @@ object QueryLoader {
     }
   }
 
-  // Searches the database for all lines in the current customer order
+  /**
+   *  Searches the database for all lines in the current customer order.
+   *  @param selectedCustomerOrder The customer order to search for.
+   *  @return An array of results.
+   */
   def searchCustomerOrderLine(selectedCustomerOrder: CustomerOrder): Array[CustomerOrderLine] = {
     val searchOrderLine = new CustomerOrderLine(null, selectedCustomerOrder.idCustomerOrder.getValue, null)
     val searchValues = Array(searchOrderLine.idItem, searchOrderLine.idCustomerOrder, searchOrderLine.quantity)
@@ -70,7 +83,11 @@ object QueryLoader {
     }
   }
 
-  // Searches the database for all lines in the current purchase order
+  /**
+   *  Searches the database for all lines in the current purchase order.
+   *  @param selectedPurchaseOrder The purchase order to search for.
+   *  @return An array of results.
+   */
   def searchPurchaseOrderLine(selectedPurchaseOrder: PurchaseOrder): Array[PurchaseOrderLine] = {
     val searchOrderLine = new PurchaseOrderLine(selectedPurchaseOrder.idPurchaseOrder.getValue.asInstanceOf[Int], null, null, null)
     val searchValues = Array(searchOrderLine.idPurchaseOrder, searchOrderLine.idItem, searchOrderLine.quantity, searchOrderLine.quantityDamaged)
@@ -90,9 +107,12 @@ object QueryLoader {
     }
   }
 
-  // Searches the database for all locations associated with an item
+  /**
+   *  Searches the database for all locations associated with an item.
+   *  @param selectedItem The item to search for.
+   *  @return An array of results.
+   */
   def searchLocation(selectedItem: Item): Array[Location] = {
-    println("CURRENT ITEM: " + selectedItem.idItem.getValue)
     val searchLocation = new Location(null, selectedItem.idItem.getValue, null, null, null)
     val searchValues = Array(searchLocation.idLocation, searchLocation.idItem, searchLocation.row, searchLocation.col, searchLocation.quantity)
     val currentLocations = SQLConnector.read(searchLocation.tableName, searchValues)
@@ -111,7 +131,11 @@ object QueryLoader {
     }
   }
 
-  // Searches the database for a matching user
+  /**
+   *  Searches the database for a matching user.
+   *  @param selectedUser The user to search for.
+   *  @return The results of the search.
+   */
   def searchUser(selectedUser: User): User = {
     val searchUser = new User(selectedUser.idUser_, selectedUser.password_, null, null, null, 1)
     val searchValues = Array(searchUser.idUser, searchUser.password, searchUser.forename, searchUser.surname, searchUser.email, searchUser.isEmployee)
@@ -124,7 +148,11 @@ object QueryLoader {
     }
   }
 
-  // Searches the database for a matching item
+  /**
+   *  Searches the database for a matching item.
+   *  @param selectedItem The item to search for.
+   *  @return The results of the search.
+   */
   def searchItem(selectedItem: Item): Item = {
     val searchValues = Array(selectedItem.idItem)
     val currentItem = MongoConnector.read(selectedItem.collectionName, searchValues)

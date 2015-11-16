@@ -11,6 +11,7 @@ import com.qa.gui.pathfinder.WarehouseMap
 import scalafx.scene.layout.BorderPane
 
 /**
+ * Gets the values to fill the customer order map with.
  * @author cboucher
  */
 class CustomerOrderMapController {

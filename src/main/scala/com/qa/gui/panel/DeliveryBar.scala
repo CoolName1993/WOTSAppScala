@@ -18,7 +18,7 @@ import com.qa.gui.controller.DeliveryPanelController
  * One delivery bar in the available delivery tab in the GUI.
  * @author cboucher
  */
-case class DeliveryBar(purchaseOrder: PurchaseOrder) extends BorderPane {
+class DeliveryBar(purchaseOrder: PurchaseOrder) extends BorderPane {
   var expanded = false
   var current = "button-bad"
 

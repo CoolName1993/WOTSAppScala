@@ -5,6 +5,12 @@
 	<artifactId>WOTSAppScala</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>WOTSScala</name>
+	<plugins>
+		<plugin>
+			<groupId>org.scala-tools</groupId>
+			<artifactId>maven-scala-plugin</artifactId>
+		</plugin>
+	</plugins>
 	<dependencies>
 		<!-- SCALA TEST -->
 		<dependency>

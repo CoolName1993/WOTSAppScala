@@ -11,7 +11,7 @@ object MongoConnector {
 
   // String to specify URL to MongoDB
   val mongoURL = "localhost"
-  
+
   // The name of the MongoDB database
   val databaseName = "nbgardensdata"
 
@@ -20,12 +20,15 @@ object MongoConnector {
 
   /**
    * Establishes the connection to the database.
+   * @return Whether or not the connection was successful.
    */
   def connect: Unit = {
     try {
       connection = MongoConnection(mongoURL, 27017)
     } catch {
-      case e: Exception => e.printStackTrace()
+      case e: Exception => {
+        e.printStackTrace
+      }
     }
   }
 
@@ -42,27 +45,27 @@ object MongoConnector {
    * @param fields An array of fields used as search parameters
    */
   def read(collectionName: String, fields: Array[Field]): Array[MongoDBObject] = {
-    connect
     def createMongoObject: MongoDBObject = {
       val output = MongoDBObject.empty
       def addField(i: Int) {
         if (i < fields.size) {
           output.put(fields(i).getFieldName, fields(i).getValue)
-          addField(i +(1))
+          addField(i + (1))
         }
       }
       addField(0)
       output
     }
     try {
+      connect
       val collection = connection(databaseName)(collectionName)
       val searchItem = createMongoObject
       val cursor = collection.find(searchItem)
       val outputArray = new Array[MongoDBObject](cursor.size)
-      def fillArray(i : Int){
-        if(cursor.hasNext && i <= outputArray.size) {
+      def fillArray(i: Int) {
+        if (cursor.hasNext && i <= outputArray.size) {
           outputArray(i) = cursor.next
-          fillArray(i +(1))
+          fillArray(i + (1))
         }
       }
       fillArray(0)

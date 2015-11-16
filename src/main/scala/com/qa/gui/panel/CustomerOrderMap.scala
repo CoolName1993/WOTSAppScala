@@ -14,6 +14,12 @@ import scalafx.scene.layout.BorderPane
  */
 class CustomerOrderMap(map: Array[Array[Int]], scene: BorderPane) extends GridPane {
 
+  /**
+   * Creates a tile in the map.
+   * @param row The row value of the tile.
+   * @param col The col values of the tile.
+   * @param scene_ The scene to refresh.
+   */
   def createTile(row: Int, col: Int, scene_ : BorderPane): Rectangle = {
     var colour = ""
     var highlight = ""
@@ -47,7 +53,7 @@ class CustomerOrderMap(map: Array[Array[Int]], scene: BorderPane) extends GridPa
         highlight = "map-floor-highlight"
       }
     }
-    val tile = new Rectangle() {
+    val tile = new Rectangle {
       width = 61
       height = 61
       id = colour
@@ -64,7 +70,10 @@ class CustomerOrderMap(map: Array[Array[Int]], scene: BorderPane) extends GridPa
     tile
   }
 
-  def createMap() {
+  /**
+   * Creates the tile map of rectangle buttons.
+   */
+  def createMap: Unit = {
     val tileMap: Array[Array[Rectangle]] = Array.ofDim[Rectangle](map.length, map(0).length)
     def addTiles(x: Int) {
       def singleTile(y: Int) {
