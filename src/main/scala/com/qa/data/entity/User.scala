@@ -12,7 +12,7 @@ import com.qa.data.sql.{ Entity, Column }
  * @param isEmployee_ Whether the user is an employee or not.
  * @author cboucher
  */
-case class User(idUser_ : Int, password_ : String, forename_ : String, surname_ : String, email_ : String, isEmployee_ : Int) extends Entity {
+class User(idUser_ : Int, password_ : String, forename_ : String, surname_ : String, email_ : String, isEmployee_ : Int) extends Entity {
   val tableName = "user"
   val idUser = new Column("idUser", idUser_)
   val password = new Column("password", password_)
