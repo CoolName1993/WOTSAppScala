@@ -5,12 +5,6 @@
 	<artifactId>WOTSAppScala</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>WOTSScala</name>
-	<plugins>
-		<plugin>
-			<groupId>org.scala-tools</groupId>
-			<artifactId>maven-scala-plugin</artifactId>
-		</plugin>
-	</plugins>
 	<dependencies>
 		<!-- SCALA TEST -->
 		<dependency>
@@ -64,4 +58,22 @@
 			<type>pom</type>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.scala-tools</groupId>
+				<artifactId>maven-scala-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>
