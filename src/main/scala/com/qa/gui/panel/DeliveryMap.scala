@@ -10,7 +10,7 @@ import scalafx.scene.layout.GridPane
 /**
  * @author cboucher
  */
-case class DeliveryMap(map: Array[Array[Int]]) extends GridPane {
+class DeliveryMap(map: Array[Array[Int]]) extends GridPane {
 
   def createTile(x: Int, y: Int): Rectangle = {
     var colour = ""
